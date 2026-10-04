@@ -85,7 +85,7 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(
             aria-describedby={error ? errorId : hint ? hintId : undefined}
             className={[
               'w-full rounded-full border bg-white py-2.5 pr-11 pl-11 text-sm text-black',
-              'placeholder:text-neutral-400 [&::-webkit-search-cancel-button]:hidden',
+              'placeholder:text-neutral-500 [&::-webkit-search-cancel-button]:hidden',
               'transition-colors duration-150 focus:outline-none focus:ring-2',
               error
                 ? 'border-red-500 focus:border-red-500 focus:ring-red-100'

@@ -79,7 +79,7 @@ export function FieldShell({ id, label, hint, error, required, children }: Field
 export const fieldClasses = (hasError: boolean) =>
   [
     'w-full rounded-xl border bg-white px-4 py-2.5 text-sm text-black',
-    'placeholder:text-neutral-400',
+    'placeholder:text-neutral-500',
     'transition-colors duration-150',
     'focus:outline-none focus:ring-2',
     hasError

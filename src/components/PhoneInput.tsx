@@ -65,7 +65,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
               e.target.value = e.target.value.replace(/\D/g, '');
               onChange?.(e);
             }}
-            className={`w-full bg-transparent px-4 py-2.5 text-sm text-black placeholder:text-neutral-400 focus:outline-none disabled:cursor-not-allowed disabled:text-neutral-400 ${className}`}
+            className={`w-full bg-transparent px-4 py-2.5 text-sm text-black placeholder:text-neutral-500 focus:outline-none disabled:cursor-not-allowed disabled:text-neutral-400 ${className}`}
             {...rest}
           />
         </div>

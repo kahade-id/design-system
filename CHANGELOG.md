@@ -1,5 +1,10 @@
 # Changelog @kahade/ui
 
+## v0.5.2 — 4 Oktober 2026
+- **`CopyButton`**: kini punya state gagal — bila clipboard API + fallback sama-sama gagal, tombol menampilkan "Gagal menyalin" (merah) + pengumuman screen reader, bukan diam-diam mengklaim "Tersalin!". Warna sukses digelapkan (`green-700`→`green-800`) agar kontras lolos.
+- **`EmptyState`**: prop baru `headingLevel` (1|2|3, default 3) — halaman 404 kini bisa pakai `headingLevel={1}` tanpa workaround sr-only h1 manual.
+- **Placeholder** `Input`/`PhoneInput`/`SearchField`: `neutral-400`→`neutral-500` (kontras placeholder ~2.7:1 → ~4.5:1).
+
 ## v0.5.1 — 4 Oktober 2026
 - **`Badge`**: varian baru `dark` (`bg-black text-white`) — untuk info yang harus menonjol secara visual (mis. kompensasi equity di kartu lowongan). Varian `neutral` yang pudar tidak cocok untuk informasi primer.
 
