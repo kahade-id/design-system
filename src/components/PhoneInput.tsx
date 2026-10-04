@@ -39,6 +39,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
             error
               ? 'border-red-500 focus-within:border-red-500 focus-within:ring-red-100'
               : 'border-neutral-200 hover:border-neutral-300 focus-within:border-black focus-within:ring-neutral-200',
+            'has-disabled:opacity-60',
           ].join(' ')}
         >
           <span
@@ -47,6 +48,8 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
           >
             {countryCode}
           </span>
+          {/* Diumumkan ke screen reader karena prefix visual disembunyikan. */}
+          <span className="sr-only">Kode negara {countryCode}. </span>
           <input
             ref={ref}
             id={id}

@@ -24,6 +24,7 @@ export interface DropdownMenuProps {
 export function DropdownMenu({ trigger, items, align = 'right', className = '' }: DropdownMenuProps) {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const wasOpen = useRef(false);
 
   // Fokus kembali ke pemicu saat menu ditutup.
@@ -35,6 +36,14 @@ export function DropdownMenu({ trigger, items, align = 'right', className = '' }
   }, [open]);
 
   const toggle = () => setOpen((o) => !o);
+
+  const openAndFocusFirst = () => {
+    setOpen(true);
+    // Fokus item pertama setelah menu ter-render.
+    window.setTimeout(() => {
+      menuRef.current?.querySelector<HTMLElement>('button[role="menuitem"]')?.focus();
+    }, 30);
+  };
 
   return (
     <div className={`relative inline-block ${className}`}>
@@ -53,7 +62,7 @@ export function DropdownMenu({ trigger, items, align = 'right', className = '' }
             setOpen(false);
           } else if (e.key === 'ArrowDown' && !open) {
             e.preventDefault();
-            setOpen(true);
+            openAndFocusFirst();
           }
         }}
         className="inline-flex cursor-pointer rounded-full transition-transform duration-150 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2"
@@ -62,10 +71,11 @@ export function DropdownMenu({ trigger, items, align = 'right', className = '' }
       </div>
       {open && (
         <>
-          {/* Overlay transparan: tutup saat klik di luar */}
+          {/* Overlay transparan: tutup saat klik di luar. tabIndex -1 agar tak masuk urutan Tab. */}
           <button
             type="button"
-            aria-label="Tutup menu"
+            tabIndex={-1}
+            aria-hidden="true"
             onClick={() => setOpen(false)}
             onKeyDown={(e) => {
               if (e.key === 'Escape') setOpen(false);
@@ -73,15 +83,22 @@ export function DropdownMenu({ trigger, items, align = 'right', className = '' }
             className="fixed inset-0 z-40 cursor-default bg-transparent"
           />
           <div
+            ref={menuRef}
             role="menu"
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') {
+                e.stopPropagation();
+                setOpen(false);
+              }
+            }}
             className={[
               'animate-slide-down absolute z-50 mt-2 min-w-48 overflow-hidden rounded-2xl border border-neutral-200 bg-white py-1.5 shadow-lift',
               align === 'right' ? 'right-0' : 'left-0',
             ].join(' ')}
           >
-            {items.map((item) => (
+            {items.map((item, idx) => (
               <button
-                key={item.label}
+                key={`${item.label}-${idx}`}
                 type="button"
                 role="menuitem"
                 onClick={() => {

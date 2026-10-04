@@ -24,7 +24,7 @@ export function Steps({ steps, current, className = '' }: StepsProps) {
         const active = i === current;
         const isLast = i === steps.length - 1;
         return (
-          <li key={step.label} className="relative flex gap-3.5">
+          <li key={`${i}-${step.label}`} className="relative flex gap-3.5">
             {/* Garis penghubung */}
             {!isLast && (
               <span

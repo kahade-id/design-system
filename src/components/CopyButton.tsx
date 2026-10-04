@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Check, Copy } from '@phosphor-icons/react';
 import { Icon } from '../icons/Icon';
 
@@ -15,6 +15,13 @@ export interface CopyButtonProps {
 export function CopyButton({ text, label = 'Salin', className = '' }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Bersihkan timer saat unmount agar tidak setState setelah dilepas.
+  useEffect(() => {
+    return () => {
+      if (timer.current) clearTimeout(timer.current);
+    };
+  }, []);
 
   const copy = async () => {
     try {

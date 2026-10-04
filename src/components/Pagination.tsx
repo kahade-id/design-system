@@ -38,7 +38,9 @@ export function Pagination({
   siblingCount = 1,
 }: PaginationProps) {
   if (totalPages <= 1) return null;
-  const items = pageRange(page, totalPages, siblingCount);
+  // Jepit ke rentang valid agar tidak merender tombol halaman yang tak ada.
+  const safePage = Math.min(Math.max(1, page), totalPages);
+  const items = pageRange(safePage, totalPages, siblingCount);
 
   const navBtn =
     'flex h-9 w-9 items-center justify-center rounded-full text-black transition-colors hover:bg-neutral-100 disabled:text-neutral-300 disabled:hover:bg-transparent disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900';
@@ -48,8 +50,8 @@ export function Pagination({
       <button
         type="button"
         aria-label="Halaman sebelumnya"
-        disabled={page <= 1}
-        onClick={() => onChange(page - 1)}
+        disabled={safePage <= 1}
+        onClick={() => onChange(safePage - 1)}
         className={navBtn}
       >
         <Icon icon={CaretLeft} size={18} />
@@ -64,12 +66,12 @@ export function Pagination({
             key={item}
             type="button"
             aria-label={`Halaman ${item}`}
-            aria-current={item === page ? 'page' : undefined}
+            aria-current={item === safePage ? 'page' : undefined}
             onClick={() => onChange(item)}
             className={[
               'h-9 min-w-9 rounded-full px-2 text-sm font-semibold transition-colors',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900',
-              item === page ? 'bg-black text-white' : 'text-black hover:bg-neutral-100',
+              item === safePage ? 'bg-black text-white' : 'text-black hover:bg-neutral-100',
             ].join(' ')}
           >
             {item}
@@ -79,8 +81,8 @@ export function Pagination({
       <button
         type="button"
         aria-label="Halaman berikutnya"
-        disabled={page >= totalPages}
-        onClick={() => onChange(page + 1)}
+        disabled={safePage >= totalPages}
+        onClick={() => onChange(safePage + 1)}
         className={navBtn}
       >
         <Icon icon={CaretRight} size={18} />

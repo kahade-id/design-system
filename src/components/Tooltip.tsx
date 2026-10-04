@@ -28,7 +28,7 @@ export function Tooltip({ label, children, className = '' }: TooltipProps) {
       <span
         id={tooltipId}
         role="tooltip"
-        className="animate-fade-in pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 -translate-x-1/2 translate-y-1 rounded-lg bg-black px-2 py-1 text-xs font-medium whitespace-nowrap text-white opacity-0 transition-all duration-150 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
+        className="animate-fade-in pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 w-max max-w-64 -translate-x-1/2 translate-y-1 rounded-lg bg-black px-2.5 py-1.5 text-center text-xs font-medium whitespace-normal text-white opacity-0 transition-all duration-150 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
       >
         {label}
       </span>

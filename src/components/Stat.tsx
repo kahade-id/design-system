@@ -34,7 +34,7 @@ export function Stat({ label, value, delta, hint, className = '' }: StatProps) {
           {delta.value}
         </p>
       )}
-      {hint && <p className="mt-1 text-xs text-neutral-400">{hint}</p>}
+      {hint && <p className="mt-1 text-xs text-neutral-500">{hint}</p>}
     </div>
   );
 }

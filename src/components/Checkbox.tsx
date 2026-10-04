@@ -44,7 +44,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           <span
             className={[
               'mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2',
-              'transition-colors duration-150',
+              'transition-colors duration-150 text-transparent',
               'peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-neutral-900 peer-focus-visible:ring-offset-2',
               error ? 'border-red-500' : 'border-neutral-300',
               'peer-checked:border-black peer-checked:bg-black peer-checked:text-white',

@@ -25,11 +25,13 @@ function initials(name: string): string {
  * Avatar lingkaran dengan initials fallback.
  */
 export function Avatar({ src, name, size = 'md', className = '', alt, ...rest }: AvatarProps) {
+  // Bila ada foto: img dengan alt yang mengumumkan; wrapper tanpa role ganda.
+  // Bila tidak: initials dengan role="img" + aria-label.
   return (
     <span
       className={`inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-neutral-900 font-semibold text-white select-none ${sizeClasses[size]} ${className}`}
-      role="img"
-      aria-label={alt ?? name}
+      role={src ? undefined : 'img'}
+      aria-label={src ? undefined : (alt ?? name)}
     >
       {src ? (
         // eslint-disable-next-line @next/next/no-img-element

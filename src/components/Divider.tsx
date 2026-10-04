@@ -21,9 +21,13 @@ export function Divider({ label, orientation = 'horizontal', className = '' }: D
     return <hr className={`border-0 border-t border-neutral-200 ${className}`} />;
   }
   return (
-    <div className={`flex items-center gap-3 ${className}`} role="separator">
+    <div
+      className={`flex items-center gap-3 ${className}`}
+      role="separator"
+      aria-label={typeof label === 'string' ? label : undefined}
+    >
       <span aria-hidden="true" className="h-px flex-1 bg-neutral-200" />
-      <span className="text-xs font-medium text-neutral-400 whitespace-nowrap">{label}</span>
+      <span className="text-xs font-medium whitespace-nowrap text-neutral-500">{label}</span>
       <span aria-hidden="true" className="h-px flex-1 bg-neutral-200" />
     </div>
   );

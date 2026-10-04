@@ -1,4 +1,4 @@
-import { useId, useRef, useState, type ClipboardEvent, type KeyboardEvent } from 'react';
+import { useEffect, useId, useRef, useState, type ClipboardEvent, type KeyboardEvent } from 'react';
 import { FieldError } from './Input';
 
 export interface OtpInputProps {
@@ -32,6 +32,11 @@ export function OtpInput({
   const errorId = useId();
   const [digits, setDigits] = useState<string[]>(() => Array(length).fill(''));
   const refs = useRef<(HTMLInputElement | null)[]>([]);
+
+  // Sinkronkan ulang bila jumlah kotak berubah setelah mount.
+  useEffect(() => {
+    setDigits(Array(length).fill(''));
+  }, [length]);
 
   const focusBox = (i: number) => refs.current[i]?.focus();
 

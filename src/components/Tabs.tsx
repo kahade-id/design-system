@@ -93,6 +93,7 @@ export function Tabs({ tabs, activeId, onChange, renderPanel, className = '' }: 
       </div>
       {renderPanel && (
         <div
+          key={activeId}
           role="tabpanel"
           id={panelId}
           aria-labelledby={`${baseId}-tab-${activeId}`}
