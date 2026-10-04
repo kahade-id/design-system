@@ -1,5 +1,5 @@
 import { forwardRef, useId, type InputHTMLAttributes } from 'react';
-import { FieldShell, fieldClasses } from './Input';
+import { FieldShell } from './Input';
 
 export interface PhoneInputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'prefix'> {
