@@ -31,10 +31,12 @@ const variantConfig: Record<
  */
 export function Alert({ variant = 'info', title, className = '', children, ...rest }: AlertProps) {
   const { icon, classes } = variantConfig[variant];
+  // danger/warning = alert penting; info/success = status sopan.
+  const role = variant === 'danger' || variant === 'warning' ? 'alert' : 'status';
   return (
     <div
-      role="alert"
-      className={`flex items-start gap-3 rounded-2xl p-4 ${classes} ${className}`}
+      role={role}
+      className={`animate-fade-in flex items-start gap-3 rounded-2xl p-4 ${classes} ${className}`}
       {...rest}
     >
       <Icon icon={icon} size={20} className="mt-0.5 shrink-0" />

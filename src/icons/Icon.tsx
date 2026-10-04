@@ -29,6 +29,7 @@ export function Icon({
     <i
       className={className}
       style={{ display: 'inline-flex', flexShrink: 0, ...style }}
+      role={ariaLabel ? 'img' : undefined}
       aria-label={ariaLabel}
       aria-hidden={ariaLabel ? undefined : true}
     >

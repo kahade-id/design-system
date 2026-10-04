@@ -53,10 +53,10 @@ export function Banner({
           type="button"
           onClick={action.onClick}
           className={[
-            'rounded-full px-3 py-1 text-xs font-bold transition',
+            'rounded-full px-3 py-1 text-xs font-bold transition-all duration-150',
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
             variant === 'brand'
-              ? 'bg-black text-white hover:bg-neutral-800 focus-visible:ring-black'
+              ? 'bg-black text-white hover:bg-neutral-800 focus-visible:ring-neutral-900'
               : 'bg-white text-black hover:bg-neutral-200 focus-visible:ring-white',
           ].join(' ')}
         >
@@ -68,9 +68,9 @@ export function Banner({
           type="button"
           onClick={() => setDismissed(true)}
           aria-label="Tutup pengumuman"
-          className={`rounded-full p-1 transition focus-visible:outline-none focus-visible:ring-2 ${
+          className={`rounded-full p-1 transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 ${
             variant === 'brand'
-              ? 'hover:bg-black/10 focus-visible:ring-black'
+              ? 'hover:bg-black/10 focus-visible:ring-neutral-900'
               : 'hover:bg-white/20 focus-visible:ring-white'
           }`}
         >

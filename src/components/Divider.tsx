@@ -11,7 +11,6 @@ export function Divider({ label, orientation = 'horizontal', className = '' }: D
   if (orientation === 'vertical') {
     return (
       <span
-        aria-hidden="true"
         role="separator"
         aria-orientation="vertical"
         className={`inline-block w-px self-stretch bg-neutral-200 ${className}`}

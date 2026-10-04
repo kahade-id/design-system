@@ -8,6 +8,7 @@ import {
 } from 'react';
 import { UploadSimple } from '@phosphor-icons/react';
 import { Icon } from '../icons/Icon';
+import { FieldError } from './Input';
 
 export interface FileUploadProps
   extends Omit<
@@ -43,6 +44,8 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
   ) => {
     const autoId = useId();
     const id = idProp ?? autoId;
+    const hintId = useId();
+    const errorId = useId();
     const inputRef = useRef<HTMLInputElement>(null);
     const [dragOver, setDragOver] = useState(false);
 
@@ -74,31 +77,34 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
           onDrop={onDrop}
           className={[
             'flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-6 py-10 text-center',
-            'transition-colors duration-150',
+            'transition-all duration-200',
+            'has-focus-visible:ring-2 has-focus-visible:ring-neutral-900 has-focus-visible:ring-offset-2',
             error
               ? 'border-red-400 bg-red-50/50'
               : dragOver
-                ? 'border-black bg-neutral-50'
+                ? 'scale-[1.01] border-black bg-neutral-100 shadow-soft'
                 : 'border-neutral-300 bg-white hover:border-neutral-400 hover:bg-neutral-50/50',
             disabled ? 'cursor-not-allowed opacity-60' : '',
           ].join(' ')}
         >
-          <Icon
-            icon={UploadSimple}
-            size={28}
-            className={error ? 'text-red-500' : 'text-neutral-400'}
-          />
+          <span
+            className={`transition-transform duration-200 ${dragOver && !error ? 'scale-110' : ''}`}
+          >
+            <Icon
+              icon={UploadSimple}
+              size={28}
+              className={error ? 'text-red-500' : dragOver ? 'text-black' : 'text-neutral-400'}
+            />
+          </span>
           <span className="text-sm font-semibold text-black">
             Seret file ke sini atau <span className="underline">klik untuk pilih</span>
           </span>
           {hint && !error && (
-            <span className="text-xs text-neutral-500">{hint}</span>
-          )}
-          {error && (
-            <span className="text-xs text-red-600" role="alert">
-              {error}
+            <span id={hintId} className="text-xs text-neutral-500">
+              {hint}
             </span>
           )}
+          {error && <FieldError id={errorId}>{error}</FieldError>}
         </label>
         <input
           ref={(node) => {
@@ -113,6 +119,7 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
           disabled={disabled}
           required={required}
           aria-invalid={!!error}
+          aria-describedby={error ? errorId : hint ? hintId : undefined}
           className="sr-only"
           onChange={(e) => handleFiles(e.target.files)}
           {...rest}

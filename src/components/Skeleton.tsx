@@ -11,7 +11,7 @@ export interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Block shimmer untuk loading state.
+ * Block shimmer untuk loading state (gradient sweep, bukan pulse).
  */
 export function Skeleton({
   width = 'w-full',
@@ -23,7 +23,7 @@ export function Skeleton({
   return (
     <div
       aria-hidden
-      className={`animate-pulse bg-neutral-100 ${circle ? 'rounded-full' : 'rounded-lg'} ${width} ${height} ${className}`}
+      className={`animate-shimmer ${circle ? 'rounded-full' : 'rounded-lg'} ${width} ${height} ${className}`}
       {...rest}
     />
   );

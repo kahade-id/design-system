@@ -94,6 +94,7 @@ const NAV: [string, string][] = [
   ["navigasi", "Navigasi"],
   ["data", "Data"],
   ["feedback", "Feedback"],
+  ["aksesibilitas", "Aksesibilitas"],
 ];
 
 const NEUTRALS: [string, string][] = [
@@ -124,7 +125,7 @@ export default function Page() {
     <div className="min-h-screen bg-white">
       <Banner
         variant="info"
-        message="Showcase @kahade/ui v0.2.0 — untuk audit visual komponen"
+        message="Showcase @kahade/ui v0.3.0 — untuk audit visual komponen"
         dismissible
       />
       {/* Header */}
@@ -138,7 +139,7 @@ export default function Page() {
             <p className="text-xs text-neutral-500">Galeri komponen @kahade/ui</p>
           </div>
           <div className="ml-auto flex items-center gap-2">
-            <Badge variant="neutral">v0.2.0</Badge>
+            <Badge variant="neutral">v0.3.0</Badge>
             <a
               href="https://github.com/kahade-id/design-system"
               target="_blank"
@@ -351,7 +352,7 @@ export default function Page() {
 
         {/* ══════════ NAVIGASI ══════════ */}
         <Section id="navigasi" title="Navigasi" desc="Berpindah antar halaman & langkah.">
-          <Demo label="Tabs">
+          <Demo label="Tabs — coba panah kiri/kanan">
             <div className="w-full">
               <Tabs
                 tabs={[
@@ -361,8 +362,13 @@ export default function Page() {
                 ]}
                 activeId={tab}
                 onChange={setTab}
+                renderPanel={(id) => (
+                  <p className="text-sm text-neutral-600">
+                    Konten panel untuk <strong className="text-black">{id}</strong> — terhubung
+                    via aria-controls/tabpanel.
+                  </p>
+                )}
               />
-              <p className="mt-3 text-sm text-neutral-600">Konten tab: {tab}</p>
             </div>
           </Demo>
           <Demo label="Breadcrumb">
@@ -417,6 +423,14 @@ export default function Page() {
 
         {/* ══════════ DATA ══════════ */}
         <Section id="data" title="Data" desc="Tampilkan informasi terstruktur.">
+          <Demo label="Card interaktif — arahkan kursor">
+            <Card interactive className="max-w-xs !p-5">
+              <p className="text-sm font-bold text-black">Kartu bisa diklik</p>
+              <p className="mt-1 text-xs text-neutral-500">
+                Hover: terangkat + shadow. Props <code className="font-mono">interactive</code>.
+              </p>
+            </Card>
+          </Demo>
           <Demo label="Table">
             <div className="w-full overflow-x-auto">
               <Table>
@@ -609,13 +623,47 @@ export default function Page() {
             </p>
           </Demo>
         </Section>
+
+        <Section
+          id="aksesibilitas"
+          title="Aksesibilitas"
+          desc="Semua komponen bisa dioperasikan penuh dengan keyboard. Coba: Tab untuk berpindah, Enter/Space untuk aktivasi, panah kiri/kanan di Tabs, ESC untuk menutup Modal & DropdownMenu."
+        >
+          <ul className="list-disc space-y-2 pl-5 text-sm text-neutral-700">
+            <li>
+              <strong className="text-black">Modal</strong> — focus trap: Tab berputar di dalam
+              dialog, fokus kembali ke tombol pemicu saat ditutup. Coba buka modal di section
+              Feedback lalu tekan Tab berulang.
+            </li>
+            <li>
+              <strong className="text-black">Tabs</strong> — panah kiri/kanan, Home, End untuk
+              pindah tab; roving tabindex (hanya tab aktif yang terjangkau Tab).
+            </li>
+            <li>
+              <strong className="text-black">Form</strong> — label terasosiasi, hint & error
+              terbaca screen reader via <code className="font-mono">aria-describedby</code>,
+              error memakai <code className="font-mono">role="alert"</code>.
+            </li>
+            <li>
+              <strong className="text-black">Switch</strong> — <code className="font-mono">role="switch"</code>;
+              {" "}<strong className="text-black">OtpInput</strong> — tiap kotak berlabel
+              "Digit ke-N"; <strong className="text-black">CopyButton</strong> mengumumkan
+              "Tersalin!" via live region.
+            </li>
+            <li>
+              <strong className="text-black">Animasi</strong> — semua ≤200ms dan otomatis
+              dimatikan bila pengguna mengaktifkan{" "}
+              <code className="font-mono">prefers-reduced-motion</code>.
+            </li>
+          </ul>
+        </Section>
       </main>
 
       <footer className="border-t border-neutral-200">
         <div className="mx-auto flex max-w-5xl items-center gap-3 px-5 py-6">
           <Logo size={22} />
           <p className="text-xs text-neutral-400">
-            @kahade/ui v0.2.0 — Design System Kahade · PT Kawal Hak Dengan Aman
+            @kahade/ui v0.3.0 — Design System Kahade · PT Kawal Hak Dengan Aman
           </p>
         </div>
       </footer>

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useId, type ReactNode, isValidElement, cloneElement, type ReactElement } from 'react';
 
 export interface TooltipProps {
   /** Teks tooltip */
@@ -8,15 +8,27 @@ export interface TooltipProps {
 }
 
 /**
- * Tooltip CSS-only (group-hover), posisi atas.
+ * Tooltip: fade + geser halus saat hover/fokus. Pemicu dikaitkan via aria-describedby.
  */
 export function Tooltip({ label, children, className = '' }: TooltipProps) {
+  const tooltipId = useId();
+  const trigger =
+    isValidElement(children) &&
+    (children as ReactElement<{ 'aria-describedby'?: string }>).props[
+      'aria-describedby'
+    ] === undefined
+      ? cloneElement(children as ReactElement<Record<string, unknown>>, {
+          'aria-describedby': tooltipId,
+        })
+      : children;
+
   return (
     <span className={`group relative inline-flex ${className}`}>
-      {children}
+      {trigger}
       <span
+        id={tooltipId}
         role="tooltip"
-        className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 -translate-x-1/2 rounded-lg bg-black px-2 py-1 text-xs font-medium whitespace-nowrap text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100"
+        className="animate-fade-in pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 -translate-x-1/2 translate-y-1 rounded-lg bg-black px-2 py-1 text-xs font-medium whitespace-nowrap text-white opacity-0 transition-all duration-150 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
       >
         {label}
       </span>

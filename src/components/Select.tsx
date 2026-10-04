@@ -5,6 +5,7 @@ import {
 } from 'react';
 import { CaretDown } from '@phosphor-icons/react';
 import { Icon } from '../icons/Icon';
+import { FieldError } from './Input';
 
 export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
@@ -35,6 +36,8 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   ) => {
     const autoId = useId();
     const id = idProp ?? autoId;
+    const hintId = useId();
+    const errorId = useId();
     return (
       <div className="w-full">
         {label && (
@@ -49,6 +52,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             id={id}
             required={required}
             aria-invalid={!!error}
+            aria-describedby={error ? errorId : hint ? hintId : undefined}
             className={[
               'w-full appearance-none rounded-xl border bg-white pl-4 pr-10 py-2.5 text-sm text-black',
               'transition-colors duration-150',
@@ -76,11 +80,11 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           </span>
         </div>
         {error ? (
-          <p className="mt-1.5 text-xs text-red-600" role="alert">
-            {error}
-          </p>
+          <FieldError id={errorId}>{error}</FieldError>
         ) : hint ? (
-          <p className="mt-1.5 text-xs text-neutral-500">{hint}</p>
+          <p id={hintId} className="mt-1.5 text-xs text-neutral-500">
+            {hint}
+          </p>
         ) : null}
       </div>
     );

@@ -1,4 +1,5 @@
 import { useId, useRef, useState, type ClipboardEvent, type KeyboardEvent } from 'react';
+import { FieldError } from './Input';
 
 export interface OtpInputProps {
   /** Jumlah kotak. Default 6. */
@@ -27,6 +28,8 @@ export function OtpInput({
   className = '',
 }: OtpInputProps) {
   const autoId = useId();
+  const hintId = useId();
+  const errorId = useId();
   const [digits, setDigits] = useState<string[]>(() => Array(length).fill(''));
   const refs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -71,7 +74,12 @@ export function OtpInput({
       {label && (
         <span className="mb-1.5 block text-sm font-semibold text-black">{label}</span>
       )}
-      <div className="flex gap-2" role="group" aria-label={label ?? 'Kode OTP'}>
+      <div
+        className="flex gap-2"
+        role="group"
+        aria-label={label ?? 'Kode OTP'}
+        aria-describedby={error ? errorId : hint ? hintId : undefined}
+      >
         {digits.map((d, i) => (
           <input
             key={`${autoId}-${i}`}
@@ -85,28 +93,30 @@ export function OtpInput({
             maxLength={1}
             value={d}
             disabled={disabled}
-            aria-label={`Digit ${i + 1}`}
+            aria-label={`Digit ${i + 1} dari ${length}`}
             aria-invalid={!!error}
             onChange={(e) => setDigit(i, e.target.value.replace(/\D/g, '').slice(-1))}
             onKeyDown={(e) => onKeyDown(i, e)}
             onPaste={onPaste}
             className={[
               'h-12 w-11 rounded-xl border bg-white text-center text-lg font-bold text-black',
-              'transition-colors duration-150 focus:outline-none focus:ring-2',
+              'transition-all duration-150 focus:outline-none focus:ring-2',
               error
                 ? 'border-red-500 focus:border-red-500 focus:ring-red-100'
-                : 'border-neutral-200 hover:border-neutral-300 focus:border-black focus:ring-neutral-200',
+                : d
+                  ? 'border-neutral-300 bg-neutral-50 focus:border-black focus:ring-neutral-200'
+                  : 'border-neutral-200 hover:border-neutral-300 focus:border-black focus:ring-neutral-200',
               'disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-400',
             ].join(' ')}
           />
         ))}
       </div>
       {error ? (
-        <p className="mt-1.5 text-xs text-red-600" role="alert">
-          {error}
-        </p>
+        <FieldError id={errorId}>{error}</FieldError>
       ) : hint ? (
-        <p className="mt-1.5 text-xs text-neutral-500">{hint}</p>
+        <p id={hintId} className="mt-1.5 text-xs text-neutral-500">
+          {hint}
+        </p>
       ) : null}
     </div>
   );

@@ -36,10 +36,11 @@ export function Steps({ steps, current, className = '' }: StepsProps) {
               aria-hidden="true"
               className={[
                 'flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold',
+                'transition-all duration-200',
                 done
                   ? 'bg-black text-white'
                   : active
-                    ? 'border-2 border-black bg-white text-black'
+                    ? 'animate-pulse-ring border-2 border-black bg-white text-black'
                     : 'border-2 border-neutral-200 bg-white text-neutral-400',
               ].join(' ')}
             >

@@ -39,18 +39,22 @@ export function CopyButton({ text, label = 'Salin', className = '' }: CopyButton
     <button
       type="button"
       onClick={copy}
-      aria-live="polite"
       className={[
-        'inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2',
+        'inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-all duration-150',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2',
+        'disabled:cursor-not-allowed disabled:opacity-50',
         copied
           ? 'border-green-300 bg-green-50 text-green-700'
-          : 'border-neutral-300 bg-white text-black hover:border-black active:scale-[0.97]',
+          : 'border-neutral-300 bg-white text-black hover:border-black hover:shadow-soft active:scale-[0.97]',
         className,
       ].join(' ')}
     >
       <Icon icon={copied ? Check : Copy} size={14} weight={copied ? 'bold' : 'regular'} />
       {copied ? 'Tersalin!' : label}
+      {/* Pengumuman untuk screen reader (terpisah dari teks visual). */}
+      <span className="sr-only" aria-live="polite">
+        {copied ? 'Tersalin ke clipboard' : ''}
+      </span>
     </button>
   );
 }

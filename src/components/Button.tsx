@@ -19,7 +19,7 @@ const variantClasses: Record<ButtonVariant, string> = {
   primary:
     'bg-black text-white hover:bg-neutral-800 active:bg-black disabled:bg-neutral-300 disabled:text-neutral-500',
   secondary:
-    'bg-white text-black border border-neutral-300 hover:border-black active:bg-neutral-100 disabled:border-neutral-200 disabled:text-neutral-400',
+    'bg-white text-black border border-neutral-300 hover:border-black hover:shadow-soft active:bg-neutral-100 disabled:border-neutral-200 disabled:text-neutral-400 disabled:shadow-none',
   ghost:
     'bg-transparent text-black hover:bg-neutral-100 active:bg-neutral-200 disabled:text-neutral-400',
   danger:
@@ -62,7 +62,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={[
           'inline-flex items-center justify-center rounded-full font-semibold',
           'transition-all duration-150 select-none',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2',
           'active:scale-[0.97] disabled:active:scale-100 disabled:cursor-not-allowed',
           variantClasses[variant],
           sizeClasses[size],

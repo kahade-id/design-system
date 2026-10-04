@@ -41,7 +41,7 @@ export function Pagination({
   const items = pageRange(page, totalPages, siblingCount);
 
   const navBtn =
-    'flex h-9 w-9 items-center justify-center rounded-full text-black transition-colors hover:bg-neutral-100 disabled:text-neutral-300 disabled:hover:bg-transparent disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black';
+    'flex h-9 w-9 items-center justify-center rounded-full text-black transition-colors hover:bg-neutral-100 disabled:text-neutral-300 disabled:hover:bg-transparent disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900';
 
   return (
     <nav aria-label="Navigasi halaman" className={`flex items-center gap-1 ${className}`}>
@@ -68,7 +68,7 @@ export function Pagination({
             onClick={() => onChange(item)}
             className={[
               'h-9 min-w-9 rounded-full px-2 text-sm font-semibold transition-colors',
-              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900',
               item === page ? 'bg-black text-white' : 'text-black hover:bg-neutral-100',
             ].join(' ')}
           >

@@ -6,7 +6,7 @@ Gaya: Apple-clean, monokrom — kuning `#FFD200` **hanya** untuk mark logo.
 ## Install
 
 ```bash
-npm install github:kahade-id/design-system#v0.2.1
+npm install github:kahade-id/design-system#v0.3.0
 ```
 
 ## Setup
@@ -120,6 +120,7 @@ import { colors, fontFamily, radii, shadows } from '@kahade/ui';
 
 ## Changelog
 
+- **v0.3.0** — Poles visual & aksesibilitas: animasi micro-interaction (fade/zoom/slide ≤200ms, shimmer Skeleton, pulse-ring Steps), **focus trap Modal** + fokus kembali ke pemicu, keyboard nav Tabs (panah/Home/End, roving tabindex, tabpanel), ESC + fokus-kembali di DropdownMenu, ARIA lengkap (role switch/status/alert, aria-describedby di semua field, live region CopyButton), pesan error field seragam (ikon + teks), `Card` props `interactive`, ring fokus `ring-neutral-900` seragam, hormati `prefers-reduced-motion`.
 - **v0.2.0** — 14 komponen baru: FileUpload, SearchField, OtpInput, PasswordInput, PhoneInput, Progress, Steps, Breadcrumb, Divider, DropdownMenu, Stat, Banner, CopyButton, ListItem. `FieldShell` & `fieldClasses` dari Input diekspor untuk dipakai ulang.
 - **v0.1.0** — Rilis awal: token, 17 komponen, wrapper ikon Phosphor, Logo.
 

@@ -23,7 +23,7 @@ export function Badge({ variant = 'neutral', className = '', children, ...rest }
   return (
     <span
       className={[
-        'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold whitespace-nowrap',
+        'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold tracking-wide whitespace-nowrap',
         variantClasses[variant],
         className,
       ].join(' ')}

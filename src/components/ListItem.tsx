@@ -50,7 +50,7 @@ export function ListItem({
       <button
         type="button"
         onClick={onClick}
-        className={`${classes} cursor-pointer transition hover:bg-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-black active:bg-neutral-100`}
+        className={`${classes} cursor-pointer transition hover:bg-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-neutral-900 active:bg-neutral-100`}
       >
         {inner}
       </button>
