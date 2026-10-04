@@ -1,1 +1,30 @@
-{"description":"Design System Kahade — komponen & token UI bersama untuk semua web Kahade","devDependencies":{"@phosphor-icons/react":"^2.1.10","@types/react":"^19.1.0","react":"^19.3.0","typescript":"^5.9.2"},"files":["src"],"main":"src/index.ts","name":"@kahade/ui","peerDependencies":{"@phosphor-icons/react":"^2.1.10","react":">=18","tailwindcss":"^4"},"scripts":{"typecheck":"tsc --noEmit"},"types":"src/index.ts","version":"0.1.0"}
+{
+  "description": "Design System Kahade — komponen & token UI bersama untuk semua web Kahade",
+  "devDependencies": {
+    "@phosphor-icons/react": "^2.1.10",
+    "@types/react": "^19.1.0",
+    "react": "^19.3.0",
+    "typescript": "^5.9.2"
+  },
+  "files": [
+    "src"
+  ],
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./tokens.css": "./src/tokens/tokens.css",
+    "./styles/fonts.css": "./src/styles/fonts.css",
+    "./styles/base.css": "./src/styles/base.css"
+  },
+  "name": "@kahade/ui",
+  "peerDependencies": {
+    "@phosphor-icons/react": "^2.1.10",
+    "react": ">=18",
+    "tailwindcss": "^4"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "version": "0.2.0"
+}

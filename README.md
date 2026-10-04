@@ -75,6 +75,20 @@ Token Tailwind yang tersedia: `font-sans`, `text-ink`, `bg-paper`, `bg-brand`,
 | `Tooltip` | `label` (CSS-only, posisi atas) |
 | `Logo` | `size` (mark zigzag #FFD200) |
 | `Icon` | `icon` (komponen Phosphor), `size`, `weight` |
+| `FileUpload` | dropzone: `accept`, `multiple`, `hint`, `error`, `onFiles` |
+| `SearchField` | `clearable`, `onClear` (controlled/uncontrolled) |
+| `OtpInput` | `length` (default 6), `onComplete(code)` — auto-advance & paste |
+| `PasswordInput` | seperti `Input` + toggle intip Eye/EyeSlash |
+| `PhoneInput` | prefix `countryCode` tetap (default +62), hanya digit |
+| `Progress` | `value` 0–100, `size`: sm/md |
+| `Steps` | `steps: {label, description?}[]`, `current` |
+| `Breadcrumb` | `items: {label, href?}[]` |
+| `Divider` | `label?`, `orientation`: horizontal/vertical |
+| `DropdownMenu` | `trigger`, `items: {label, icon?, onClick, danger?}[]` |
+| `Stat` | `label`, `value`, `delta: {value, up}` |
+| `Banner` | `variant`: info/brand, `message`, `action?`, `dismissible` |
+| `CopyButton` | `text`, `label` — salin clipboard + "Tersalin!" |
+| `ListItem` | `leading?`, `title`, `description?`, `trailing?`, `onClick?` |
 
 Token non-CSS (untuk React Native / kanvas):
 
@@ -89,3 +103,8 @@ import { colors, fontFamily, radii, shadows } from '@kahade/ui';
 3. **Bahasa UI Indonesia** — semua label, pesan error, dan teks komponen berbahasa Indonesia.
 4. **Jangan pakai `bg-*` generik di dalam komponen** — komponen ini memakai literal Tailwind agar konsisten.
 5. Fokus jelas: semua elemen interaktif punya `focus-visible` ring.
+
+## Changelog
+
+- **v0.2.0** — 14 komponen baru: FileUpload, SearchField, OtpInput, PasswordInput, PhoneInput, Progress, Steps, Breadcrumb, Divider, DropdownMenu, Stat, Banner, CopyButton, ListItem. `FieldShell` & `fieldClasses` dari Input diekspor untuk dipakai ulang.
+- **v0.1.0** — Rilis awal: token, 17 komponen, wrapper ikon Phosphor, Logo.

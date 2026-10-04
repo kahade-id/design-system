@@ -5,7 +5,7 @@ import {
   type TextareaHTMLAttributes,
 } from 'react';
 
-interface FieldShellProps {
+export interface FieldShellProps {
   id: string;
   label?: string;
   hint?: string;
@@ -14,7 +14,7 @@ interface FieldShellProps {
   children: React.ReactNode;
 }
 
-function FieldShell({ id, label, hint, error, required, children }: FieldShellProps) {
+export function FieldShell({ id, label, hint, error, required, children }: FieldShellProps) {
   return (
     <div className="w-full">
       {label && (
@@ -38,7 +38,7 @@ function FieldShell({ id, label, hint, error, required, children }: FieldShellPr
   );
 }
 
-const fieldClasses = (hasError: boolean) =>
+export const fieldClasses = (hasError: boolean) =>
   [
     'w-full rounded-xl border bg-white px-4 py-2.5 text-sm text-black',
     'placeholder:text-neutral-400',
