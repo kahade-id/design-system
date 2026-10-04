@@ -5,9 +5,11 @@ import {
   useEffect,
   useId,
   useRef,
+  useState,
   type HTMLAttributes,
   type ReactNode,
 } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
 
@@ -36,6 +38,8 @@ export function Modal({
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
   const prevFocusedRef = useRef<HTMLElement | null>(null);
+  // Portal target — di-mount saat efek client berjalan (aman untuk SSR).
+  const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
   // Simpan onClose di ref agar identitasnya yang tidak stabil tidak me-restart effect
   // (listener + body overflow + focus timeout) di setiap render parent.
   const onCloseRef = useRef(onClose);
@@ -71,6 +75,7 @@ export function Modal({
 
   useEffect(() => {
     if (!open) return;
+    setPortalTarget(document.body);
     prevFocusedRef.current = document.activeElement as HTMLElement | null;
     document.addEventListener('keydown', handleKeyDown);
     document.body.style.overflow = 'hidden';
@@ -89,9 +94,9 @@ export function Modal({
     };
   }, [open, handleKeyDown]);
 
-  if (!open) return null;
+  if (!open || !portalTarget) return null;
 
-  return (
+  return createPortal(
     <div
       className="animate-fade-in fixed inset-0 z-50 flex items-center justify-center p-4"
       role="dialog"
@@ -129,6 +134,7 @@ export function Modal({
         </div>
         {children}
       </div>
-    </div>
+    </div>,
+    portalTarget,
   );
 }

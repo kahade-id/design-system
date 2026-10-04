@@ -1,10 +1,12 @@
+"use client";
+
 import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import type { Icon as PhosphorIcon } from '@phosphor-icons/react';
 import { CircleNotch } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
 
-type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
-type ButtonSize = 'sm' | 'md' | 'lg';
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
+export type ButtonSize = 'sm' | 'md' | 'lg';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
@@ -13,6 +15,27 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   leftIcon?: PhosphorIcon;
   rightIcon?: PhosphorIcon;
   children: ReactNode;
+}
+
+/** Class visual Button — dipakai ulang oleh ButtonLink agar konsisten. */
+export function buttonClasses(
+  variant: ButtonVariant = 'primary',
+  size: ButtonSize = 'md',
+  className = '',
+): string {
+  return [
+    'inline-flex items-center justify-center rounded-full font-semibold',
+    'transition-all duration-150 select-none',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2',
+    'active:scale-[0.97] disabled:active:scale-100 disabled:cursor-not-allowed',
+    variantClasses[variant],
+    sizeClasses[size],
+    className,
+  ].join(' ');
+}
+
+export function buttonIconSize(size: ButtonSize): number {
+  return iconSizes[size];
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
@@ -60,15 +83,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         type={type}
         disabled={isDisabled}
         aria-busy={loading || undefined}
-        className={[
-          'inline-flex items-center justify-center rounded-full font-semibold',
-          'transition-all duration-150 select-none',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2',
-          'active:scale-[0.97] disabled:active:scale-100 disabled:cursor-not-allowed',
-          variantClasses[variant],
-          sizeClasses[size],
-          className,
-        ].join(' ')}
+        className={buttonClasses(variant, size, className)}
         {...rest}
       >
         {loading ? (

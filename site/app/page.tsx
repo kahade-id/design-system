@@ -18,6 +18,7 @@ import {
   Banner,
   Breadcrumb,
   Button,
+  ButtonLink,
   Card,
   Checkbox,
   CopyButton,
@@ -256,6 +257,15 @@ export default function Page() {
           <Demo label="CopyButton — klik untuk salin">
             <CopyButton text="https://karir.kahade.id" />
             <CopyButton text="kode-referral-123" label="Salin kode" />
+          </Demo>
+          <Demo label="ButtonLink — navigasi bertampang tombol (me-render <a>)">
+            <ButtonLink href="#tombol">Primary</ButtonLink>
+            <ButtonLink href="#tombol" variant="secondary">
+              Secondary
+            </ButtonLink>
+            <ButtonLink href="#tombol" variant="ghost" size="sm">
+              Ghost kecil
+            </ButtonLink>
           </Demo>
         </Section>
 

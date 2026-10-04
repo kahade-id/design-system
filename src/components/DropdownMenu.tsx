@@ -91,6 +91,31 @@ export function DropdownMenu({ trigger, items, align = 'right', className = '' }
               if (e.key === 'Escape') {
                 e.stopPropagation();
                 setOpen(false);
+                return;
+              }
+              // Navigasi antar item: panah atas/bawah, Home, End (pola WAI-APG).
+              if (
+                e.key === 'ArrowDown' ||
+                e.key === 'ArrowUp' ||
+                e.key === 'Home' ||
+                e.key === 'End'
+              ) {
+                e.preventDefault();
+                const items =
+                  menuRef.current?.querySelectorAll<HTMLElement>(
+                    'button[role="menuitem"]',
+                  ) ?? [];
+                if (items.length === 0) return;
+                const current = Array.from(items).indexOf(
+                  document.activeElement as HTMLElement,
+                );
+                let next: number;
+                if (e.key === 'Home') next = 0;
+                else if (e.key === 'End') next = items.length - 1;
+                else if (e.key === 'ArrowDown')
+                  next = (current + 1) % items.length;
+                else next = (current - 1 + items.length) % items.length;
+                items[next]?.focus();
               }
             }}
             className={[

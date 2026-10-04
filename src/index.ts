@@ -1,8 +1,8 @@
 /**
- * @kahade/ui — Design System Kahade v1
+ * @kahade/ui — Design System Kahade
  *
  * Komponen & token UI bersama untuk semua web Kahade
- * (karir, legal, landing, admin).
+ * (kahade.id, karir, legal, bantuan, status, investor, artikel).
  */
 
 // Tokens (objek TS — untuk non-CSS / React Native)
@@ -18,6 +18,7 @@ export * from './components/Badge';
 export * from './components/Banner';
 export * from './components/Breadcrumb';
 export * from './components/Button';
+export * from './components/ButtonLink';
 export * from './components/Card';
 export * from './components/Checkbox';
 export * from './components/CopyButton';
