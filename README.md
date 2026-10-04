@@ -108,3 +108,20 @@ import { colors, fontFamily, radii, shadows } from '@kahade/ui';
 
 - **v0.2.0** — 14 komponen baru: FileUpload, SearchField, OtpInput, PasswordInput, PhoneInput, Progress, Steps, Breadcrumb, Divider, DropdownMenu, Stat, Banner, CopyButton, ListItem. `FieldShell` & `fieldClasses` dari Input diekspor untuk dipakai ulang.
 - **v0.1.0** — Rilis awal: token, 17 komponen, wrapper ikon Phosphor, Logo.
+
+## Showcase
+
+Galeri visual semua komponen ada di `site/` (Next.js).
+
+**Deploy ke Vercel:**
+1. Import repo `kahade-id/design-system`
+2. Set **Root Directory** = `site`
+3. Deploy
+
+**Jalankan lokal:**
+
+```bash
+cd site
+npm install
+npm run dev
+```
