@@ -1,0 +1,16 @@
+/**
+ * Style dasar Kahade: latar putih, teks hitam, font Plus Jakarta Sans.
+ * Import setelah tokens.css dan fonts.css.
+ */
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--color-brand);
+  color: var(--color-ink);
+}

@@ -1,0 +1,25 @@
+/**
+ * Token desain Kahade untuk Tailwind CSS v4.
+ *
+ * Dipakai konsumen dengan:
+ *   @import "tailwindcss";
+ *   @import "@kahade/ui/tokens.css";
+ *
+ * JANGAN definisikan utility di sini selain @theme.
+ * Netral memakai bawaan Tailwind (neutral-*).
+ */
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  /* Warna brand. ATURAN: #FFD200 HANYA untuk mark logo, bukan UI umum. */
+  --color-brand: #FFD200;
+  --color-ink: #000000;
+  --color-paper: #FFFFFF;
+
+  /* Radius */
+  --radius-xl2: 1rem; /* kartu */
+
+  /* Shadow */
+  --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.04), 0 4px 16px rgb(0 0 0 / 0.06);
+  --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.05), 0 12px 32px rgb(0 0 0 / 0.1);
+}
