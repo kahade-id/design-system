@@ -1,5 +1,5 @@
 import { useId, useState, type ReactNode } from 'react';
-import { CaretDown } from '@phosphor-icons/react';
+import { CaretDown } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
 
 export interface AccordionItemData {

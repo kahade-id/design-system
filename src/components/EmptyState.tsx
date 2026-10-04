@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Tray } from '@phosphor-icons/react';
+import { Tray } from '@phosphor-icons/react/dist/ssr';
 import type { Icon as PhosphorIcon } from '@phosphor-icons/react';
 import { Icon } from '../icons/Icon';
 

@@ -1,5 +1,5 @@
 import type { HTMLAttributes } from 'react';
-import { CircleNotch } from '@phosphor-icons/react';
+import { CircleNotch } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
 
 export interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {

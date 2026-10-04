@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Check, Copy } from '@phosphor-icons/react';
+import { Check, Copy } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
 
 export interface CopyButtonProps {

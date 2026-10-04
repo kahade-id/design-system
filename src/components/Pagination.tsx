@@ -1,4 +1,4 @@
-import { CaretLeft, CaretRight } from '@phosphor-icons/react';
+import { CaretLeft, CaretRight } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
 
 export interface PaginationProps {

@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { CaretRight } from '@phosphor-icons/react';
+import { CaretRight } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
 
 export interface ListItemProps {

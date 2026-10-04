@@ -1,6 +1,6 @@
 import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import type { Icon as PhosphorIcon } from '@phosphor-icons/react';
-import { CircleNotch } from '@phosphor-icons/react';
+import { CircleNotch } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';

@@ -4,8 +4,8 @@ import {
   CheckCircle,
   Warning,
   WarningCircle,
-  type Icon as PhosphorIcon,
-} from '@phosphor-icons/react';
+} from '@phosphor-icons/react/dist/ssr';
+import type { Icon as PhosphorIcon } from '@phosphor-icons/react';
 import { Icon } from '../icons/Icon';
 
 type AlertVariant = 'info' | 'success' | 'warning' | 'danger';

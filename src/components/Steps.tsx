@@ -1,4 +1,4 @@
-import { Check } from '@phosphor-icons/react';
+import { Check } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
 
 export interface StepItem {

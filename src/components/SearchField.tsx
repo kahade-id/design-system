@@ -4,7 +4,7 @@ import {
   useState,
   type InputHTMLAttributes,
 } from 'react';
-import { MagnifyingGlass, X } from '@phosphor-icons/react';
+import { MagnifyingGlass, X } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
 import { FieldError } from './Input';
 

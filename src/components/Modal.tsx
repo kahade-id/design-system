@@ -6,7 +6,7 @@ import {
   type HTMLAttributes,
   type ReactNode,
 } from 'react';
-import { X } from '@phosphor-icons/react';
+import { X } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
 
 export interface ModalProps extends HTMLAttributes<HTMLDivElement> {

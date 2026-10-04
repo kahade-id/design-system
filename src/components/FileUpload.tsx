@@ -6,7 +6,7 @@ import {
   type DragEvent,
   type InputHTMLAttributes,
 } from 'react';
-import { UploadSimple } from '@phosphor-icons/react';
+import { UploadSimple } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
 import { FieldError } from './Input';
 

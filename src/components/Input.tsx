@@ -8,7 +8,7 @@ import {
   type ReactNode,
   type TextareaHTMLAttributes,
 } from 'react';
-import { WarningCircle } from '@phosphor-icons/react';
+import { WarningCircle } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
 
 export interface FieldShellProps {

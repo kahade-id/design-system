@@ -3,7 +3,7 @@ import {
   useId,
   type SelectHTMLAttributes,
 } from 'react';
-import { CaretDown } from '@phosphor-icons/react';
+import { CaretDown } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
 import { FieldError } from './Input';
 

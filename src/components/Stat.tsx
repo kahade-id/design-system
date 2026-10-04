@@ -1,4 +1,4 @@
-import { TrendDown, TrendUp } from '@phosphor-icons/react';
+import { TrendDown, TrendUp } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
 
 export interface StatDelta {

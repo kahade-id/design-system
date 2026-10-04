@@ -4,7 +4,7 @@ import {
   type InputHTMLAttributes,
   type ReactNode,
 } from 'react';
-import { Check } from '@phosphor-icons/react';
+import { Check } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
 import { FieldError } from './Input';
 

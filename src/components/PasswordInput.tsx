@@ -1,5 +1,5 @@
 import { forwardRef, useId, useState, type InputHTMLAttributes } from 'react';
-import { Eye, EyeSlash } from '@phosphor-icons/react';
+import { Eye, EyeSlash } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
 import { FieldShell, fieldClasses } from './Input';
 
