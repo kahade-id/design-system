@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, type ReactNode } from 'react';
 import { Info, Megaphone, X } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
