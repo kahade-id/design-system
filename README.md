@@ -6,7 +6,7 @@ Gaya: Apple-clean, monokrom — kuning `#FFD200` **hanya** untuk mark logo.
 ## Install
 
 ```bash
-npm install github:kahade-id/design-system#v0.2.0
+npm install github:kahade-id/design-system#v0.2.1
 ```
 
 ## Setup
