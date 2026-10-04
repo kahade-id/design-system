@@ -1,5 +1,8 @@
 # Changelog @kahade/ui
 
+## v0.5.1 — 4 Oktober 2026
+- **`Badge`**: varian baru `dark` (`bg-black text-white`) — untuk info yang harus menonjol secara visual (mis. kompensasi equity di kartu lowongan). Varian `neutral` yang pudar tidak cocok untuk informasi primer.
+
 ## v0.5.0 — 4 Oktober 2026
 
 ### Fitur baru

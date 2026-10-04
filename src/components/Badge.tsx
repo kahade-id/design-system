@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
-type BadgeVariant = 'neutral' | 'success' | 'warning' | 'danger' | 'brand';
+type BadgeVariant = 'neutral' | 'success' | 'warning' | 'danger' | 'brand' | 'dark';
 
 export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   variant?: BadgeVariant;
@@ -14,6 +14,8 @@ const variantClasses: Record<BadgeVariant, string> = {
   danger: 'bg-red-100 text-red-700',
   /** Kuning brand — HANYA untuk hal terkait logo/brand. */
   brand: 'bg-brand text-black',
+  /** Hitam tegas — untuk info yang harus menonjol (mis. kompensasi). */
+  dark: 'bg-black text-white',
 };
 
 /**
