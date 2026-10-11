@@ -1,36 +1,241 @@
 /**
- * Style dasar Kahade: latar putih, teks hitam, font Plus Jakarta Sans.
- * Import setelah tokens.css dan fonts.css.
+ * Kahade Design Language — style dasar.
+ * Import SETELAH tokens.css. Light mode saja.
  */
+
+@layer base {
+:root {
+  color-scheme: light;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
-  background-color: var(--color-paper);
-  color: var(--color-ink);
+  background-color: var(--color-surface);
+  color: var(--color-fg);
   font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
 }
 
 ::selection {
-  background-color: var(--color-brand);
-  color: var(--color-ink);
+  background-color: var(--color-fg);
+  color: var(--color-fg-inverse);
 }
 
-/* ── Animasi micro-interaction Kahade ──────────────────────────────
-   Durasi ≤300ms. Hormati prefers-reduced-motion (lihat bawah). */
+/* Fokus keyboard global — komponen DS punya ring sendiri (menang via
+   lapisan utilities). Di @layer base agar tidak menimpa utility. */
+  :focus-visible {
+    outline: 2px solid var(--color-fg);
+    outline-offset: 2px;
+  }
 
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  [id] {
+    scroll-margin-top: 96px;
+  }
+}
+
+@layer components {
+/* ── Skip link ───────────────────────────────────────────────────── */
+.kh-skip-link {
+  position: fixed;
+  left: 16px;
+  top: -200px;
+  z-index: 100;
+  border-radius: 999px;
+  background: var(--color-fg);
+  color: var(--color-fg-inverse);
+  padding: 12px 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 150ms ease-out;
+}
+.kh-skip-link:focus-visible {
+  top: 12px;
+  outline: 2px solid var(--color-fg);
+  outline-offset: 2px;
+}
+
+/* ── Prose: tipografi konten panjang (legal, artikel, bantuan, karir) ── */
+.kh-prose {
+  color: var(--color-fg-2);
+  font-size: var(--text-body-lg);
+  line-height: 1.75;
+}
+.kh-prose > :where(* + *) {
+  margin-top: 1.25em;
+}
+.kh-prose :where(h2):not(:where(.not-prose, .not-prose *)) {
+  color: var(--color-fg);
+  font-size: clamp(1.375rem, 1.25rem + 0.6vw, 1.75rem);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  margin-top: 2.5em;
+}
+.kh-prose :where(h3):not(:where(.not-prose, .not-prose *)) {
+  color: var(--color-fg);
+  font-size: 1.1875rem;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+  margin-top: 2em;
+}
+.kh-prose :where(h4):not(:where(.not-prose, .not-prose *)) {
+  color: var(--color-fg);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  margin-top: 1.75em;
+}
+.kh-prose :where(h2 + *):not(:where(.not-prose, .not-prose *)),
+.kh-prose :where(h3 + *):not(:where(.not-prose, .not-prose *)),
+.kh-prose :where(h4 + *):not(:where(.not-prose, .not-prose *)) {
+  margin-top: 0.75em;
+}
+.kh-prose > :where(:first-child),
+.kh-prose > section:first-child > :where(:first-child) {
+  margin-top: 0;
+}
+.kh-prose :where(section + section):not(:where(.not-prose, .not-prose *)) {
+  margin-top: 0;
+}
+.kh-prose :where(section > * + *):not(:where(.not-prose, .not-prose *)) {
+  margin-top: 1.25em;
+}
+.kh-prose :where(ul):not(:where(.not-prose, .not-prose *)),
+.kh-prose :where(ol):not(:where(.not-prose, .not-prose *)) {
+  padding-left: 1.25em;
+}
+.kh-prose :where(ul):not(:where(.not-prose, .not-prose *)) {
+  list-style: disc;
+}
+.kh-prose :where(ol):not(:where(.not-prose, .not-prose *)) {
+  list-style: decimal;
+}
+.kh-prose :where(li):not(:where(.not-prose, .not-prose *)) {
+  padding-left: 0.25em;
+}
+.kh-prose :where(li + li):not(:where(.not-prose, .not-prose *)) {
+  margin-top: 0.5em;
+}
+.kh-prose :where(li):not(:where(.not-prose, .not-prose *))::marker {
+  color: var(--color-fg-subtle);
+}
+.kh-prose :where(strong):not(:where(.not-prose, .not-prose *)) {
+  color: var(--color-fg);
+  font-weight: 600;
+}
+.kh-prose :where(a):not(:where(.not-prose, .not-prose *)) {
+  color: var(--color-fg);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--color-line-control);
+  transition: text-decoration-color 150ms ease;
+}
+.kh-prose :where(a):not(:where(.not-prose, .not-prose *)):hover {
+  text-decoration-color: var(--color-fg);
+}
+.kh-prose :where(blockquote):not(:where(.not-prose, .not-prose *)) {
+  border-left: 2px solid var(--color-fg);
+  padding-left: 1.25em;
+  color: var(--color-fg);
+  font-size: 1.125em;
+  line-height: 1.6;
+}
+.kh-prose :where(hr):not(:where(.not-prose, .not-prose *)) {
+  border: 0;
+  border-top: 1px solid var(--color-line);
+  margin: 2.5em 0;
+}
+.kh-prose :where(code):not(:where(.not-prose, .not-prose *)) {
+  border-radius: var(--radius-tag);
+  background: var(--color-surface-2);
+  padding: 0.15em 0.4em;
+  font-size: 0.875em;
+}
+.kh-prose :where(table):not(:where(.not-prose, .not-prose *)) {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+.kh-prose :where(th):not(:where(.not-prose, .not-prose *)),
+.kh-prose :where(td):not(:where(.not-prose, .not-prose *)) {
+  border-bottom: 1px solid var(--color-line);
+  padding: 0.75rem 1rem 0.75rem 0;
+  text-align: left;
+  vertical-align: top;
+}
+.kh-prose :where(th):not(:where(.not-prose, .not-prose *)) {
+  color: var(--color-fg);
+  font-weight: 600;
+  border-bottom-color: var(--color-fg);
+}
+.kh-prose :where(img):not(:where(.not-prose, .not-prose *)) {
+  border-radius: var(--radius-panel);
+}
+
+/* ── Reveal saat scroll (dipasang via komponen Reveal) ───────────── */
+.kh-reveal {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition:
+    opacity 700ms var(--ease-standard),
+    transform 700ms var(--ease-standard);
+  transition-delay: var(--kh-reveal-delay, 0ms);
+}
+.kh-reveal[data-visible="true"] {
+  opacity: 1;
+  transform: none;
+}
+/* Tanpa JS: konten tetap terlihat. */
+@media (scripting: none) {
+  .kh-reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Animasi micro-interaction ───────────────────────────────────── */
 @keyframes kahade-fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
 @keyframes kahade-zoom-in {
-  from { opacity: 0; transform: scale(0.95) translateY(8px); }
+  from { opacity: 0; transform: scale(0.97) translateY(8px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 @keyframes kahade-slide-down {
-  from { opacity: 0; transform: translateY(-6px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes kahade-sheet-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes kahade-shimmer {
@@ -38,25 +243,22 @@ body {
   100% { background-position: 200% 0; }
 }
 
-@keyframes kahade-pulse-ring {
-  0%, 100% { box-shadow: 0 0 0 0 rgb(0 0 0 / 0.08); }
-  50% { box-shadow: 0 0 0 6px rgb(0 0 0 / 0.04); }
-}
-
 .animate-fade-in { animation: kahade-fade-in 150ms ease-out both; }
-.animate-zoom-in { animation: kahade-zoom-in 200ms cubic-bezier(0.16, 1, 0.3, 1) both; }
-.animate-slide-down { animation: kahade-slide-down 150ms ease-out both; transform-origin: top center; }
-.animate-pulse-ring { animation: kahade-pulse-ring 2s ease-in-out infinite; }
+.animate-zoom-in { animation: kahade-zoom-in 220ms var(--ease-out-expo) both; }
+.animate-slide-down { animation: kahade-slide-down 160ms ease-out both; transform-origin: top center; }
+.animate-sheet-in { animation: kahade-sheet-in 240ms var(--ease-out-expo) both; }
 
 .animate-shimmer {
-  background: linear-gradient(
-    90deg,
-    #f5f5f5 25%,
-    #e7e7e7 50%,
-    #f5f5f5 75%
-  );
+  background: linear-gradient(90deg, #f3f4f6 25%, #e9eaee 50%, #f3f4f6 75%);
   background-size: 200% 100%;
   animation: kahade-shimmer 1.6s linear infinite;
+}
+
+/* Kompatibilitas v0 — Steps lama memakai ini; kini statis (tanpa loop). */
+.animate-pulse-ring {
+  box-shadow: 0 0 0 4px rgb(0 0 0 / 0.06);
+}
+
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -66,5 +268,10 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .kh-reveal {
+    opacity: 1;
+    transform: none;
   }
 }

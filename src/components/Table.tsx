@@ -4,7 +4,7 @@ import type { HTMLAttributes, TdHTMLAttributes, ThHTMLAttributes } from 'react';
  * Komponen tabel presentasional minimal.
  */
 export function Table({ className = '', ...rest }: HTMLAttributes<HTMLTableElement>) {
-  return <table className={`w-full border-collapse text-sm ${className}`} {...rest} />;
+  return <table className={`not-prose w-full border-collapse text-small ${className}`} {...rest} />;
 }
 
 export function THead({ className = '', ...rest }: HTMLAttributes<HTMLTableSectionElement>) {
@@ -22,7 +22,7 @@ export function TR({ className = '', ...rest }: HTMLAttributes<HTMLTableRowEleme
 export function TH({ className = '', ...rest }: ThHTMLAttributes<HTMLTableCellElement>) {
   return (
     <th
-      className={`border-b border-neutral-200 px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-neutral-500 ${className}`}
+      className={`border-b border-fg py-3 pr-6 text-left text-caption font-semibold text-fg last:pr-0 ${className}`}
       {...rest}
     />
   );
@@ -30,6 +30,6 @@ export function TH({ className = '', ...rest }: ThHTMLAttributes<HTMLTableCellEl
 
 export function TD({ className = '', ...rest }: TdHTMLAttributes<HTMLTableCellElement>) {
   return (
-    <td className={`border-b border-neutral-100 px-4 py-3 text-black ${className}`} {...rest} />
+    <td className={`border-b border-line py-4 pr-6 align-top text-fg-2 last:pr-0 ${className}`} {...rest} />
   );
 }

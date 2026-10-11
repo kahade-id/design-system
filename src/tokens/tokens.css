@@ -1,25 +1,129 @@
 /**
- * Token desain Kahade untuk Tailwind CSS v4.
+ * Kahade Design Language — token v1.
  *
  * Dipakai konsumen dengan:
  *   @import "tailwindcss";
  *   @import "@kahade/ui/tokens.css";
+ *   @import "@kahade/ui/styles/base.css";
+ *   @source "../node_modules/@kahade/ui/src";
  *
- * JANGAN definisikan utility di sini selain @theme.
- * Netral memakai bawaan Tailwind (neutral-*).
+ * Setiap token di @theme otomatis menjadi utility Tailwind:
+ *   --color-fg-muted      → text-fg-muted, bg-fg-muted, border-fg-muted
+ *   --text-h2             → text-h2 (ukuran + line-height + tracking + weight)
+ *   --radius-panel        → rounded-panel
+ *   --container-page      → max-w-page
+ *
+ * Aturan:
+ *   1. Monokrom. Hitam adalah aksen. Kuning #FFD200 HANYA untuk mark logo.
+ *   2. Warna status (positive/caution/critical) HANYA untuk makna status.
+ *   3. Radius dibatasi 4 nilai: tag, control, panel, full.
+ *   4. Bayangan dibatasi 2 level: soft, lift.
  */
 @theme {
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  /* ── Tipografi ─────────────────────────────────────────────────── */
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
 
-  /* Warna brand. ATURAN: #FFD200 HANYA untuk mark logo, bukan UI umum. */
-  --color-brand: #FFD200;
+  /* Skala fluid (clamp) — 320px → 1440px. Tiap token membawa
+     line-height, letter-spacing, dan weight sendiri. */
+  --text-display: clamp(2.5rem, 1.6rem + 4.5vw, 5.5rem); /* 40 → 88 */
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.035em;
+  --text-display--font-weight: 700;
+
+  --text-h1: clamp(2.25rem, 1.75rem + 2.5vw, 4rem); /* 36 → 64 */
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h1--font-weight: 700;
+
+  --text-h2: clamp(1.75rem, 1.4rem + 1.75vw, 3rem); /* 28 → 48 */
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.025em;
+  --text-h2--font-weight: 700;
+
+  --text-h3: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem); /* 20 → 24 */
+  --text-h3--line-height: 1.25;
+  --text-h3--letter-spacing: -0.015em;
+  --text-h3--font-weight: 600;
+
+  --text-h4: 1.125rem; /* 18 */
+  --text-h4--line-height: 1.4;
+  --text-h4--letter-spacing: -0.01em;
+  --text-h4--font-weight: 600;
+
+  --text-lead: clamp(1.125rem, 1.05rem + 0.35vw, 1.375rem); /* 18 → 22 */
+  --text-lead--line-height: 1.5;
+  --text-lead--letter-spacing: -0.01em;
+
+  --text-body-lg: clamp(1.0625rem, 1.02rem + 0.2vw, 1.125rem); /* 17 → 18 */
+  --text-body-lg--line-height: 1.7;
+
+  --text-body: 1rem; /* 16 */
+  --text-body--line-height: 1.6;
+
+  --text-small: 0.875rem; /* 14 */
+  --text-small--line-height: 1.5;
+
+  --text-caption: 0.8125rem; /* 13 */
+  --text-caption--line-height: 1.45;
+
+  --text-eyebrow: 0.875rem; /* 14 */
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--font-weight: 600;
+
+  /* ── Warna ─────────────────────────────────────────────────────── */
+  /* Teks */
+  --color-fg: #000000; /* judul, teks utama, aksi utama */
+  --color-fg-2: #262626; /* teks badan panjang */
+  --color-fg-muted: #525252; /* teks sekunder (7.8:1 di putih) */
+  --color-fg-subtle: #6b6b6b; /* meta (5.3:1 di putih, 4.8:1 di mist) */
+  --color-fg-inverse: #ffffff;
+
+  /* Permukaan */
+  --color-surface: #ffffff;
+  --color-surface-2: #f3f4f6; /* mist — seksi alternatif, footer */
+  --color-surface-3: #e9eaee; /* hover di atas mist */
+  --color-surface-inverse: #000000;
+
+  /* Garis */
+  --color-line: #e5e7eb; /* hairline dekoratif */
+  --color-line-strong: #d1d5db; /* pemisah yang perlu terlihat */
+  --color-line-control: #8a8a8a; /* batas kontrol form (≥3:1, WCAG 1.4.11) */
+
+  /* Status — hanya untuk makna status */
+  --color-positive: #15803d;
+  --color-positive-soft: #ecfdf3;
+  --color-caution: #b45309;
+  --color-caution-soft: #fffbeb;
+  --color-critical: #b91c1c;
+  --color-critical-soft: #fef2f2;
+
+  /* Brand — HANYA untuk mark logo */
+  --color-brand: #ffd200;
+
+  /* Alias kompatibilitas v0 */
   --color-ink: #000000;
-  --color-paper: #FFFFFF;
+  --color-paper: #ffffff;
 
-  /* Radius */
-  --radius-xl2: 1rem; /* kartu */
+  /* ── Radius (4 nilai) ─────────────────────────────────────────── */
+  --radius-tag: 6px; /* kbd, kode, label kecil */
+  --radius-control: 12px; /* input, select, menu item */
+  --radius-panel: 20px; /* panel, gambar, kartu */
+  /* + rounded-full untuk tombol & avatar */
 
-  /* Shadow */
-  --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.04), 0 4px 16px rgb(0 0 0 / 0.06);
-  --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.05), 0 12px 32px rgb(0 0 0 / 0.1);
+  /* Alias kompatibilitas v0 */
+  --radius-xl2: 1rem;
+
+  /* ── Bayangan (2 level) ───────────────────────────────────────── */
+  --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px -12px rgb(0 0 0 / 0.12);
+  --shadow-lift: 0 2px 6px rgb(0 0 0 / 0.04), 0 24px 48px -20px rgb(0 0 0 / 0.22);
+
+  /* ── Layout ───────────────────────────────────────────────────── */
+  --container-page: 1200px; /* lebar konten maksimum */
+  --container-reading: 680px; /* lebar baca maksimum */
+  --container-narrow: 860px; /* dokumen dengan sidebar ringan */
+
+  /* ── Motion ───────────────────────────────────────────────────── */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
 }

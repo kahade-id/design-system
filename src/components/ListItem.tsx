@@ -28,20 +28,20 @@ export function ListItem({
     <>
       {leading && <span className="shrink-0">{leading}</span>}
       <span className="min-w-0 flex-1">
-        <span className="block truncate text-sm font-semibold text-black">{title}</span>
+        <span className="block truncate text-small font-semibold text-fg">{title}</span>
         {description && (
-          <span className="mt-0.5 block truncate text-xs text-neutral-500">{description}</span>
+          <span className="mt-0.5 block truncate text-caption text-fg-muted">{description}</span>
         )}
       </span>
       {trailing && <span className="shrink-0">{trailing}</span>}
       {showChevron && (
-        <Icon icon={CaretRight} size={16} className="shrink-0 text-neutral-300" />
+        <Icon icon={CaretRight} size={16} className="shrink-0 text-fg-subtle" />
       )}
     </>
   );
 
   const classes = [
-    'flex w-full items-center gap-3 px-4 py-3.5 text-left',
+    'flex min-h-14 w-full items-center gap-3 px-4 py-3 text-left',
     className,
   ].join(' ');
 
@@ -50,7 +50,7 @@ export function ListItem({
       <button
         type="button"
         onClick={onClick}
-        className={`${classes} cursor-pointer transition hover:bg-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-neutral-900 active:bg-neutral-100`}
+        className={`${classes} cursor-pointer transition-colors hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-fg active:bg-surface-3`}
       >
         {inner}
       </button>

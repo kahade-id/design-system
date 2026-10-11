@@ -79,7 +79,7 @@ export function OtpInput({
   return (
     <div className={className}>
       {label && (
-        <span className="mb-1.5 block text-sm font-semibold text-black">{label}</span>
+        <span className="mb-2 block text-small font-semibold text-fg">{label}</span>
       )}
       <div
         className="flex gap-2"
@@ -106,14 +106,14 @@ export function OtpInput({
             onKeyDown={(e) => onKeyDown(i, e)}
             onPaste={onPaste}
             className={[
-              'h-12 w-11 rounded-xl border bg-white text-center text-lg font-bold text-black',
-              'transition-all duration-150 focus:outline-none focus:ring-2',
+              'h-14 w-12 rounded-control border bg-surface text-center text-h4 tabular-nums text-fg',
+              'transition-[border-color,box-shadow] duration-150 focus:outline-none focus:ring-1',
               error
-                ? 'border-red-500 focus:border-red-500 focus:ring-red-100'
+                ? 'border-critical focus:border-critical focus:ring-critical'
                 : d
-                  ? 'border-neutral-300 bg-neutral-50 focus:border-black focus:ring-neutral-200'
-                  : 'border-neutral-200 hover:border-neutral-300 focus:border-black focus:ring-neutral-200',
-              'disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-400',
+                  ? 'border-fg focus:ring-fg'
+                  : 'border-line-control hover:border-fg-muted focus:border-fg focus:ring-fg',
+              'disabled:cursor-not-allowed disabled:bg-surface-2 disabled:text-fg-subtle',
             ].join(' ')}
           />
         ))}
@@ -121,7 +121,7 @@ export function OtpInput({
       {error ? (
         <FieldError id={errorId}>{error}</FieldError>
       ) : hint ? (
-        <p id={hintId} className="mt-1.5 text-xs text-neutral-500">
+        <p id={hintId} className="mt-2 text-caption text-fg-muted">
           {hint}
         </p>
       ) : null}

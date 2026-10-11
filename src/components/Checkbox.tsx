@@ -45,11 +45,11 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           />
           <span
             className={[
-              'mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2',
+              'mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-[5px] border-[1.5px]',
               'transition-colors duration-150 text-transparent',
-              'peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-neutral-900 peer-focus-visible:ring-offset-2',
-              error ? 'border-red-500' : 'border-neutral-300',
-              'peer-checked:border-black peer-checked:bg-black peer-checked:text-white',
+              'peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-fg peer-focus-visible:ring-offset-2',
+              error ? 'border-critical' : 'border-line-control',
+              'peer-checked:border-fg peer-checked:bg-fg peer-checked:text-white',
               'peer-disabled:opacity-40 peer-disabled:cursor-not-allowed',
               className,
             ].join(' ')}
@@ -57,10 +57,10 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             <Icon icon={Check} size={14} weight="bold" />
           </span>
           {label && (
-            <span className="text-sm text-black">
+            <span className="text-small text-fg">
               {label}
               {hint && (
-                <span id={hintId} className="mt-0.5 block text-xs text-neutral-500">
+                <span id={hintId} className="mt-0.5 block text-caption text-fg-muted">
                   {hint}
                 </span>
               )}

@@ -13,12 +13,12 @@ export function Divider({ label, orientation = 'horizontal', className = '' }: D
       <span
         role="separator"
         aria-orientation="vertical"
-        className={`inline-block w-px self-stretch bg-neutral-200 ${className}`}
+        className={`inline-block w-px self-stretch bg-line ${className}`}
       />
     );
   }
   if (!label) {
-    return <hr className={`border-0 border-t border-neutral-200 ${className}`} />;
+    return <hr className={`border-0 border-t border-line ${className}`} />;
   }
   return (
     <div
@@ -26,9 +26,9 @@ export function Divider({ label, orientation = 'horizontal', className = '' }: D
       role="separator"
       aria-label={typeof label === 'string' ? label : undefined}
     >
-      <span aria-hidden="true" className="h-px flex-1 bg-neutral-200" />
-      <span className="text-xs font-medium whitespace-nowrap text-neutral-500">{label}</span>
-      <span aria-hidden="true" className="h-px flex-1 bg-neutral-200" />
+      <span aria-hidden="true" className="h-px flex-1 bg-line" />
+      <span className="text-caption font-medium whitespace-nowrap text-fg-subtle">{label}</span>
+      <span aria-hidden="true" className="h-px flex-1 bg-line" />
     </div>
   );
 }

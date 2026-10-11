@@ -64,9 +64,9 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
     return (
       <div className={`w-full ${className}`}>
         {label && (
-          <span className="mb-1.5 block text-sm font-semibold text-black">
+          <span className="mb-2 block text-small font-semibold text-fg">
             {label}
-            {required && <span className="text-red-600"> *</span>}
+            {required && <span aria-hidden="true" className="text-critical"> *</span>}
           </span>
         )}
         <label
@@ -78,14 +78,14 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
           onDragLeave={() => setDragOver(false)}
           onDrop={onDrop}
           className={[
-            'flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-6 py-10 text-center',
-            'transition-all duration-200',
-            'has-focus-visible:ring-2 has-focus-visible:ring-neutral-900 has-focus-visible:ring-offset-2',
+            'flex cursor-pointer flex-col items-center justify-center gap-2 rounded-panel border border-dashed px-6 py-10 text-center',
+            'transition-colors duration-200',
+            'has-focus-visible:ring-2 has-focus-visible:ring-fg has-focus-visible:ring-offset-2',
             error
-              ? 'border-red-400 bg-red-50/50'
+              ? 'border-critical bg-critical-soft'
               : dragOver
-                ? 'scale-[1.01] border-black bg-neutral-100 shadow-soft'
-                : 'border-neutral-300 bg-white hover:border-neutral-400 hover:bg-neutral-50/50',
+                ? 'border-fg bg-surface-2'
+                : 'border-line-control bg-surface hover:border-fg hover:bg-surface-2',
             disabled ? 'cursor-not-allowed opacity-60' : '',
           ].join(' ')}
         >
@@ -95,14 +95,14 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
             <Icon
               icon={UploadSimple}
               size={28}
-              className={error ? 'text-red-500' : dragOver ? 'text-black' : 'text-neutral-400'}
+              className={error ? 'text-critical' : 'text-fg'}
             />
           </span>
-          <span className="text-sm font-semibold text-black">
-            Seret file ke sini atau <span className="underline">klik untuk pilih</span>
+          <span className="text-small font-semibold text-fg">
+            Seret file ke sini atau <span className="underline underline-offset-4">pilih dari perangkat</span>
           </span>
           {hint && !error && (
-            <span id={hintId} className="text-xs text-neutral-500">
+            <span id={hintId} className="text-caption text-fg-muted">
               {hint}
             </span>
           )}

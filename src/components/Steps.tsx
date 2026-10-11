@@ -18,7 +18,7 @@ export interface StepsProps {
  */
 export function Steps({ steps, current, className = '' }: StepsProps) {
   return (
-    <ol className={className} aria-label="Langkah">
+    <ol className={`not-prose ${className}`} aria-label="Langkah">
       {steps.map((step, i) => {
         const done = i < current;
         const active = i === current;
@@ -29,32 +29,32 @@ export function Steps({ steps, current, className = '' }: StepsProps) {
             {!isLast && (
               <span
                 aria-hidden="true"
-                className={`absolute top-9 left-[17px] h-[calc(100%-2rem)] w-0.5 rounded-full ${done ? 'bg-black' : 'bg-neutral-200'}`}
+                className={`absolute top-9 left-[15px] h-[calc(100%-2.25rem)] w-px ${done ? 'bg-fg' : 'bg-line-strong'}`}
               />
             )}
             <span
               aria-hidden="true"
               className={[
-                'flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold',
+                'flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-caption font-semibold tabular-nums',
                 'transition-all duration-200',
                 done
-                  ? 'bg-black text-white'
+                  ? 'bg-fg text-fg-inverse'
                   : active
-                    ? 'animate-pulse-ring border-2 border-black bg-white text-black'
-                    : 'border-2 border-neutral-200 bg-white text-neutral-400',
+                    ? 'border-2 border-fg bg-surface text-fg ring-4 ring-surface-2'
+                    : 'border border-line-strong bg-surface text-fg-subtle',
               ].join(' ')}
             >
               {done ? <Icon icon={Check} size={16} weight="bold" /> : i + 1}
             </span>
             <div className={`pb-7 ${isLast ? 'pb-0' : ''}`}>
               <p
-                className={`text-sm font-semibold ${active || done ? 'text-black' : 'text-neutral-400'}`}
+                className={`pt-1 text-small font-semibold ${active || done ? 'text-fg' : 'text-fg-muted'}`}
                 aria-current={active ? 'step' : undefined}
               >
                 {step.label}
               </p>
               {step.description && (
-                <p className="mt-0.5 text-xs text-neutral-500">{step.description}</p>
+                <p className="mt-0.5 text-small text-fg-muted">{step.description}</p>
               )}
             </div>
           </li>

@@ -27,8 +27,8 @@ export interface FieldShellProps {
  */
 export function FieldError({ id, children }: { id?: string; children: ReactNode }) {
   return (
-    <p id={id} role="alert" className="mt-1.5 flex items-center gap-1.5 text-sm text-red-600">
-      <Icon icon={WarningCircle} size={16} className="shrink-0" />
+    <p id={id} role="alert" className="mt-2 flex items-start gap-1.5 text-small text-critical">
+      <Icon icon={WarningCircle} size={16} className="mt-0.5 shrink-0" />
       <span>{children}</span>
     </p>
   );
@@ -58,17 +58,17 @@ export function FieldShell({ id, label, hint, error, required, children }: Field
       {label && (
         <label
           htmlFor={id}
-          className="mb-1.5 block text-sm font-semibold text-black"
+          className="mb-2 block text-small font-semibold text-fg"
         >
           {label}
-          {required && <span className="text-red-600"> *</span>}
+          {required && <span aria-hidden="true" className="text-critical"> *</span>}
         </label>
       )}
       {child}
       {error ? (
         <FieldError id={errorId}>{error}</FieldError>
       ) : hint ? (
-        <p id={hintId} className="mt-1.5 text-xs text-neutral-500">
+        <p id={hintId} className="mt-2 text-caption text-fg-muted">
           {hint}
         </p>
       ) : null}
@@ -78,14 +78,14 @@ export function FieldShell({ id, label, hint, error, required, children }: Field
 
 export const fieldClasses = (hasError: boolean) =>
   [
-    'w-full rounded-xl border bg-white px-4 py-2.5 text-sm text-black',
-    'placeholder:text-neutral-500',
-    'transition-colors duration-150',
-    'focus:outline-none focus:ring-2',
+    'w-full min-h-12 rounded-control border bg-surface px-4 py-3 text-body text-fg',
+    'placeholder:text-fg-subtle',
+    'transition-[border-color,box-shadow] duration-150',
+    'focus:outline-none focus:ring-1',
     hasError
-      ? 'border-red-500 focus:border-red-500 focus:ring-red-100'
-      : 'border-neutral-200 hover:border-neutral-300 focus:border-black focus:ring-neutral-200',
-    'disabled:bg-neutral-50 disabled:text-neutral-400 disabled:cursor-not-allowed',
+      ? 'border-critical focus:border-critical focus:ring-critical'
+      : 'border-line-control hover:border-fg-muted focus:border-fg focus:ring-fg',
+    'disabled:border-line disabled:bg-surface-2 disabled:text-fg-subtle disabled:cursor-not-allowed',
   ].join(' ');
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {

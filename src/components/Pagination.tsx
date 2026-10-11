@@ -45,7 +45,7 @@ export function Pagination({
   const items = pageRange(safePage, totalPages, siblingCount);
 
   const navBtn =
-    'flex h-9 w-9 items-center justify-center rounded-full text-black transition-colors hover:bg-neutral-100 disabled:text-neutral-300 disabled:hover:bg-transparent disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900';
+    'flex h-10 w-10 items-center justify-center rounded-full text-fg transition-colors hover:bg-surface-2 disabled:text-line-strong disabled:hover:bg-transparent disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fg';
 
   return (
     <nav aria-label="Navigasi halaman" className={`flex items-center gap-1 ${className}`}>
@@ -60,7 +60,7 @@ export function Pagination({
       </button>
       {items.map((item, i) =>
         item === '…' ? (
-          <span key={`e${i}`} className="px-1 text-sm text-neutral-400">
+          <span key={`e${i}`} className="px-1 text-small text-fg-subtle">
             …
           </span>
         ) : (
@@ -71,9 +71,9 @@ export function Pagination({
             aria-current={item === safePage ? 'page' : undefined}
             onClick={() => onChange(item)}
             className={[
-              'h-9 min-w-9 rounded-full px-2 text-sm font-semibold transition-colors',
-              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900',
-              item === safePage ? 'bg-black text-white' : 'text-black hover:bg-neutral-100',
+              'h-10 min-w-10 rounded-full px-2 text-small font-semibold tabular-nums transition-colors',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fg',
+              item === safePage ? 'bg-fg text-fg-inverse' : 'text-fg hover:bg-surface-2',
             ].join(' ')}
           >
             {item}

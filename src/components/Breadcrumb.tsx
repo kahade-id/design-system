@@ -1,6 +1,4 @@
 import { Fragment } from 'react';
-import { CaretRight } from '@phosphor-icons/react/dist/ssr';
-import { Icon } from '../icons/Icon';
 
 export interface BreadcrumbItem {
   label: string;
@@ -18,28 +16,28 @@ export interface BreadcrumbProps {
 export function Breadcrumb({ items, className = '' }: BreadcrumbProps) {
   return (
     <nav aria-label="Navigasi breadcrumb" className={className}>
-      <ol className="flex flex-wrap items-center gap-1.5 text-sm">
+      <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-small">
         {items.map((item, i) => {
           const isLast = i === items.length - 1;
           return (
             <Fragment key={`${item.label}-${i}`}>
               {i > 0 && (
                 <li aria-hidden="true" className="flex">
-                  <Icon icon={CaretRight} size={14} className="text-neutral-300" />
+                  <span className="text-line-control">/</span>
                 </li>
               )}
               <li>
                 {isLast || !item.href ? (
                   <span
                     aria-current={isLast ? 'page' : undefined}
-                    className={isLast ? 'font-semibold text-black' : 'text-neutral-500'}
+                    className={isLast ? 'font-medium text-fg' : 'text-fg-muted'}
                   >
                     {item.label}
                   </span>
                 ) : (
                   <a
                     href={item.href}
-                    className="text-neutral-500 transition hover:text-black hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 rounded"
+                    className="inline-flex min-h-6 items-center rounded-tag text-fg-muted underline-offset-4 transition-colors hover:text-fg hover:underline"
                   >
                     {item.label}
                   </a>
