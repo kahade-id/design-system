@@ -71,7 +71,7 @@ const COLOR_GROUPS: { title: string; items: { token: string; hex: string; note: 
       { token: "surface", hex: colors.surface, note: "Latar utama", border: true },
       { token: "surface-2", hex: colors.surface2, note: "Seksi sekunder, footer" },
       { token: "line", hex: colors.line, note: "Hairline dekoratif" },
-      { token: "line-control", hex: colors.lineControl, note: "Batas kontrol form · ≥3:1", dark: true },
+      { token: "line-control", hex: colors.lineControl, note: "Batas kontrol form · ≥3:1" },
     ],
   },
   {
@@ -376,12 +376,12 @@ export default function Page() {
                         <Badge variant="warning">Perhatian</Badge>
                         <Badge variant="danger">Gagal</Badge>
                       </div>
-                      <div className="mt-5 flex items-center gap-4 text-small text-fg-muted">
+                      <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-small text-fg-muted">
                         <span className="flex items-center gap-2"><StatusDot tone="positive" />Operasional</span>
                         <span className="flex items-center gap-2"><StatusDot tone="caution" />Gangguan</span>
                         <span className="flex items-center gap-2"><StatusDot tone="critical" />Tidak beroperasi</span>
                       </div>
-                      <div className="mt-5 flex items-center gap-3">
+                      <div className="mt-5 flex flex-wrap items-center gap-3">
                         <Avatar name="Muhammad Agung" size="sm" />
                         <Avatar name="Kahade" />
                         <Avatar name="Toko Contoh" size="lg" />

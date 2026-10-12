@@ -17,13 +17,15 @@ export interface DropdownMenuProps {
   items: DropdownMenuItem[];
   /** Perataan menu. Default "right". */
   align?: 'left' | 'right';
+  /** Label aksesibel pemicu (wajib bila pemicu hanya ikon). Default "Buka menu". */
+  label?: string;
   className?: string;
 }
 
 /**
  * Menu dropdown: ESC untuk tutup, fokus kembali ke pemicu saat tutup.
  */
-export function DropdownMenu({ trigger, items, align = 'right', className = '' }: DropdownMenuProps) {
+export function DropdownMenu({ trigger, items, align = 'right', label = 'Buka menu', className = '' }: DropdownMenuProps) {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -55,6 +57,7 @@ export function DropdownMenu({ trigger, items, align = 'right', className = '' }
         tabIndex={0}
         aria-haspopup="menu"
         aria-expanded={open}
+        aria-label={label}
         onClick={toggle}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {

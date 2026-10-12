@@ -82,7 +82,7 @@ export function OtpInput({
         <span className="mb-2 block text-small font-semibold text-fg">{label}</span>
       )}
       <div
-        className="flex gap-2"
+        className="flex max-w-full gap-2"
         role="group"
         aria-label={label ?? 'Kode OTP'}
         aria-describedby={error ? errorId : hint ? hintId : undefined}
@@ -106,7 +106,7 @@ export function OtpInput({
             onKeyDown={(e) => onKeyDown(i, e)}
             onPaste={onPaste}
             className={[
-              'h-14 w-12 rounded-control border bg-surface text-center text-h4 tabular-nums text-fg',
+              'h-14 w-0 min-w-0 max-w-14 flex-1 sm:w-12 sm:flex-none rounded-control border bg-surface text-center text-h4 tabular-nums text-fg',
               'transition-[border-color,box-shadow] duration-150 focus:outline-none focus:ring-1',
               error
                 ? 'border-critical focus:border-critical focus:ring-critical'

@@ -37,8 +37,13 @@ const nextConfig: NextConfig = {
 @source "../node_modules/@kahade/ui/src";
 ```
 
-**3. Font Plus Jakarta Sans** — via `<link>` (lihat `GOOGLE_FONTS_URL`) atau
-`next/font/google` dengan `variable: "--font-sans"`.
+**3. Font Plus Jakarta Sans** — `next/font/google` dengan `variable: "--font-sans"`,
+dipasang di `<html>` (bukan `<body>`):
+
+```tsx
+const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], display: "swap", variable: "--font-sans" });
+<html lang="id" className={jakarta.variable}>
+```
 
 **4. Kerangka situs** — header (wrapper client) + footer:
 

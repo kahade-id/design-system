@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { GOOGLE_FONTS_URL } from "@kahade/ui";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+
+const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], display: "swap", variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "Kahade Design Language",
@@ -15,12 +17,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id" data-scroll-behavior="smooth">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href={GOOGLE_FONTS_URL} rel="stylesheet" />
-      </head>
+    <html lang="id" className={jakarta.variable} data-scroll-behavior="smooth">
       <body>
         <a href="#konten-utama" className="kh-skip-link">
           Lewati ke konten utama
