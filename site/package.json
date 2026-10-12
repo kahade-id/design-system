@@ -12,6 +12,7 @@
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^22.0.0",
     "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.3.0",
     "typescript": "^5.9.2"
   },
   "name": "kahade-design-system-showcase",
