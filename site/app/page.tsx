@@ -1,682 +1,425 @@
-"use client";
-
-import { useState, type ReactNode } from "react";
-import {
-  ArrowRight,
-  Bell,
-  DotsThree,
-  Download,
-  Pencil,
-  Plus,
-  Trash,
-  Tray,
-} from "@phosphor-icons/react";
+import type { ReactNode } from "react";
 import {
   Alert,
   Avatar,
   Badge,
-  Banner,
   Breadcrumb,
-  Button,
   ButtonLink,
-  Card,
-  Checkbox,
-  CopyButton,
-  Divider,
-  DropdownMenu,
-  EmptyState,
-  FileUpload,
-  Icon,
-  Input,
-  Textarea,
-  ListItem,
+  Container,
+  DescriptionList,
+  Eyebrow,
+  IndexList,
+  Kbd,
   Logo,
-  Modal,
-  OtpInput,
-  Pagination,
-  PasswordInput,
-  PhoneInput,
-  Progress,
-  Radio,
-  SearchField,
-  Select,
+  LogoTile,
+  PageHeader,
+  Prose,
+  SectionHeader,
   Skeleton,
-  Spinner,
   Stat,
+  StatusDot,
   Steps,
-  Switch,
   Table,
   TBody,
   TD,
   TH,
   THead,
   TR,
-  Tabs,
-  Accordion,
-  Tooltip,
+  TextLink,
+  Toc,
   colors,
+  DS_VERSION,
 } from "@kahade/ui";
+import { ButtonsDemo, FeedbackDemo, FormDemo, NavigationDemo } from "./demos";
 
-function Section({
-  id,
-  title,
-  desc,
-  children,
-}: {
-  id: string;
-  title: string;
-  desc: string;
-  children: ReactNode;
-}) {
+const TOC = [
+  { id: "prinsip", label: "Prinsip" },
+  { id: "warna", label: "Warna" },
+  { id: "tipografi", label: "Tipografi" },
+  { id: "bentuk", label: "Radius & bayangan" },
+  { id: "logo", label: "Logo" },
+  { id: "kerangka", label: "Kerangka situs" },
+  { id: "pola", label: "Pola halaman" },
+  { id: "tombol", label: "Tombol & tautan" },
+  { id: "form", label: "Form" },
+  { id: "navigasi", label: "Navigasi" },
+  { id: "data", label: "Data" },
+  { id: "umpan-balik", label: "Umpan balik" },
+];
+
+const PRINCIPLES = [
+  ["Satu perusahaan, satu sistem", "Header, footer, wadah, dan kepala halaman identik di ketujuh situs."],
+  ["Tipografi memimpin", "Hierarki dari ukuran dan berat huruf. Ikon hanya bila menambah makna."],
+  ["Garis, bukan kotak", "Hairline 1px dan grid 12 kolom. Daftar tujuan memakai IndexList, bukan grid kartu."],
+  ["Monokrom berdisiplin", "Hitam adalah aksen. Kuning hanya di mark logo. Warna status hanya untuk status."],
+  ["Jujur", "Tanpa angka karangan, tanpa link mati. Keadaan kosong dijelaskan apa adanya."],
+];
+
+const COLOR_GROUPS: { title: string; items: { token: string; hex: string; note: string; dark?: boolean; border?: boolean }[] }[] = [
+  {
+    title: "Teks",
+    items: [
+      { token: "fg", hex: colors.fg, note: "Judul, teks utama, aksi utama", dark: true },
+      { token: "fg-2", hex: colors.fg2, note: "Teks badan panjang", dark: true },
+      { token: "fg-muted", hex: colors.fgMuted, note: "Teks sekunder · 7,8:1", dark: true },
+      { token: "fg-subtle", hex: colors.fgSubtle, note: "Meta · 5,3:1", dark: true },
+    ],
+  },
+  {
+    title: "Permukaan & garis",
+    items: [
+      { token: "surface", hex: colors.surface, note: "Latar utama", border: true },
+      { token: "surface-2", hex: colors.surface2, note: "Seksi sekunder, footer" },
+      { token: "line", hex: colors.line, note: "Hairline dekoratif" },
+      { token: "line-control", hex: colors.lineControl, note: "Batas kontrol form · ≥3:1" },
+    ],
+  },
+  {
+    title: "Status & brand",
+    items: [
+      { token: "positive", hex: colors.positive, note: "Berhasil, operasional", dark: true },
+      { token: "caution", hex: colors.caution, note: "Perhatian, gangguan", dark: true },
+      { token: "critical", hex: colors.critical, note: "Gagal, tidak beroperasi", dark: true },
+      { token: "brand", hex: colors.brand, note: "HANYA mark logo" },
+    ],
+  },
+];
+
+const TYPE_SCALE = [
+  ["text-display", "Jual beli aman", "40 → 88 px · 700 · −0,035em"],
+  ["text-h1", "Kepala halaman", "36 → 64 px · 700"],
+  ["text-h2", "Judul seksi", "28 → 48 px · 700"],
+  ["text-h3", "Sub-seksi", "20 → 24 px · 600"],
+  ["text-h4", "Judul baris", "18 px · 600"],
+  ["text-lead", "Paragraf pembuka yang menjelaskan halaman.", "18 → 22 px · 400"],
+  ["text-body", "Teks badan untuk antarmuka dan deskripsi.", "16 px · 1,6"],
+  ["text-small", "Label, keterangan, tautan footer.", "14 px"],
+  ["text-caption", "Meta, tanggal, catatan kaki.", "13 px"],
+];
+
+function Block({ id, index, title, description, children }: { id: string; index: string; title: string; description?: string; children: ReactNode }) {
   return (
-    <section id={id} className="scroll-mt-28">
-      <h2 className="text-xl font-bold tracking-tight text-black">{title}</h2>
-      <p className="mt-1 text-sm text-neutral-500">{desc}</p>
-      <Card className="mt-4 space-y-8">{children}</Card>
+    <section id={id} className="scroll-mt-24 border-t border-line py-14 first-of-type:border-t-0 first-of-type:pt-0 sm:py-20">
+      <SectionHeader index={index} title={title} size="h3" description={description} />
+      <div className="mt-10">{children}</div>
     </section>
   );
 }
 
-function Demo({ label, children }: { label: string; children: ReactNode }) {
+function Specimen({ label, children, className = "" }: { label: string; children: ReactNode; className?: string }) {
   return (
-    <div>
-      <p className="mb-2.5 text-xs font-semibold tracking-wide text-neutral-400 uppercase">
-        {label}
-      </p>
-      <div className="flex flex-wrap items-center gap-3">{children}</div>
+    <div className={className}>
+      <p className="mb-3 text-caption font-semibold text-fg-subtle">{label}</p>
+      {children}
     </div>
   );
 }
-
-const NAV: [string, string][] = [
-  ["fondasi", "Fondasi"],
-  ["tombol", "Tombol"],
-  ["form", "Form"],
-  ["navigasi", "Navigasi"],
-  ["data", "Data"],
-  ["feedback", "Feedback"],
-  ["aksesibilitas", "Aksesibilitas"],
-];
-
-const NEUTRALS: [string, string][] = [
-  ["50", "bg-neutral-50"],
-  ["100", "bg-neutral-100"],
-  ["200", "bg-neutral-200"],
-  ["300", "bg-neutral-300"],
-  ["400", "bg-neutral-400"],
-  ["500", "bg-neutral-500"],
-  ["600", "bg-neutral-600"],
-  ["700", "bg-neutral-700"],
-  ["800", "bg-neutral-800"],
-  ["900", "bg-neutral-900"],
-];
 
 export default function Page() {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [tab, setTab] = useState("satu");
-  const [page, setPage] = useState(3);
-  const [step, setStep] = useState(1);
-  const [progress, setProgress] = useState(45);
-  const [switchOn, setSwitchOn] = useState(true);
-  const [otpCode, setOtpCode] = useState<string | null>(null);
-  const [search, setSearch] = useState("");
-  const [files, setFiles] = useState<string[]>([]);
-
   return (
-    <div className="min-h-screen bg-white">
-      <Banner
-        variant="info"
-        message="Showcase @kahade/ui v0.3.0 — untuk audit visual komponen"
-        dismissible
-      />
-      {/* Header */}
-      <header className="sticky top-0 z-30 border-b border-neutral-200 bg-white/80 backdrop-blur">
-        <div className="mx-auto flex max-w-5xl items-center gap-3 px-5 py-3.5">
-          <Logo size={30} />
-          <div>
-            <h1 className="text-base font-bold tracking-tight text-black">
-              Kahade Design System
-            </h1>
-            <p className="text-xs text-neutral-500">Galeri komponen @kahade/ui</p>
-          </div>
-          <div className="ml-auto flex items-center gap-2">
-            <Badge variant="neutral">v0.3.0</Badge>
-            <a
-              href="https://github.com/kahade-id/design-system"
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-full border border-neutral-300 px-3.5 py-1.5 text-xs font-semibold text-black transition hover:border-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
-            >
+    <>
+      <header className="sticky top-0 z-40 border-b border-line bg-white/90 backdrop-blur-xl">
+        <Container className="flex h-16 items-center gap-3">
+          <a href="https://kahade.id/" aria-label="Kahade — ke kahade.id" className="-m-2 inline-flex min-h-11 items-center p-2">
+            <Logo size={26} tone="ink" title="" />
+          </a>
+          <span aria-hidden="true" className="h-5 w-px bg-line-strong" />
+          <span className="text-[15px] font-semibold tracking-[-0.01em]">Design System</span>
+          <Badge variant="outline" className="ml-1">v{DS_VERSION}</Badge>
+          <div className="ml-auto">
+            <TextLink href="https://github.com/kahade-id/design-system" arrow="external">
               GitHub
-            </a>
+            </TextLink>
           </div>
-        </div>
-        <nav className="mx-auto flex max-w-5xl gap-1 overflow-x-auto px-5 pb-2.5">
-          {NAV.map(([id, label]) => (
-            <a
-              key={id}
-              href={`#${id}`}
-              className="rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap text-neutral-500 transition hover:bg-neutral-100 hover:text-black"
-            >
-              {label}
-            </a>
-          ))}
-        </nav>
+        </Container>
       </header>
 
-      <main className="mx-auto max-w-5xl space-y-14 px-5 py-10">
-        {/* ══════════ FONDASI ══════════ */}
-        <div id="fondasi" className="scroll-mt-32">
-          <h2 className="text-xl font-bold tracking-tight text-black">Fondasi</h2>
-          <p className="mt-1 text-sm text-neutral-500">
-            Token desain: warna, tipografi, dan logo.
-          </p>
-          <Card className="mt-4 space-y-8">
-            <Demo label="Warna brand">
-              <div className="flex items-center gap-2">
-                <span
-                  className="h-12 w-12 rounded-xl border border-neutral-200 bg-brand"
-                  title={colors.brand}
-                />
-                <div>
-                  <p className="text-sm font-semibold text-black">brand</p>
-                  <p className="font-mono text-xs text-neutral-500">{colors.brand}</p>
-                  <p className="text-[11px] text-neutral-400">Hanya untuk logo</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="h-12 w-12 rounded-xl bg-black" />
-                <div>
-                  <p className="text-sm font-semibold text-black">ink</p>
-                  <p className="font-mono text-xs text-neutral-500">{colors.ink}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="h-12 w-12 rounded-xl border border-neutral-200 bg-white" />
-                <div>
-                  <p className="text-sm font-semibold text-black">paper</p>
-                  <p className="font-mono text-xs text-neutral-500">{colors.paper}</p>
-                </div>
-              </div>
-            </Demo>
-            <Demo label="Skala neutral">
-              <div className="flex gap-1.5">
-                {NEUTRALS.map(([name, cls]) => (
-                  <div key={name} className="text-center">
-                    <span className={`block h-10 w-10 rounded-lg ${cls}`} title={`neutral-${name}`} />
-                    <span className="mt-1 block text-[10px] text-neutral-400">{name}</span>
-                  </div>
-                ))}
-              </div>
-            </Demo>
-            <Demo label="Tipografi — Plus Jakarta Sans">
-              <div className="w-full space-y-2">
-                <p className="text-3xl font-extrabold tracking-tight text-black">Heading 800</p>
-                <p className="text-xl font-bold text-black">Judul 700</p>
-                <p className="text-base font-semibold text-black">Subjudul 600</p>
-                <p className="text-sm font-medium text-neutral-700">Body 500 — Kahade adalah aplikasi jual-beli pengguna ke pengguna yang tampilannya seperti media sosial.</p>
-                <p className="text-xs text-neutral-500">Caption 400 — ABCDEFG abcdefg 0123456789</p>
-              </div>
-            </Demo>
-            <Demo label="Logo">
-              <div className="flex items-end gap-6">
-                <Logo size={24} />
-                <Logo size={40} />
-                <Logo size={56} />
-              </div>
-              <p className="w-full text-xs text-neutral-400">
-                Mark zigzag #FFD200 — kuning hanya untuk logo.
-              </p>
-            </Demo>
-          </Card>
-        </div>
+      <main id="konten-utama" tabIndex={-1} className="outline-none">
+        <PageHeader
+          size="display"
+          eyebrow="@kahade/ui"
+          title="Kahade Design Language"
+          lede="Token, komponen, dan pola halaman yang membuat tujuh situs Kahade terasa satu perusahaan. Monokrom, tipografi memimpin, garis alih-alih kotak."
+          actions={
+            <>
+              <ButtonLink href="#warna">Mulai dari fondasi</ButtonLink>
+              <ButtonLink href="#kerangka" variant="secondary">
+                Lihat kerangka situs
+              </ButtonLink>
+            </>
+          }
+          meta={[
+            { label: "Versi", value: DS_VERSION },
+            { label: "Situs pengguna", value: "7" },
+            { label: "Font", value: "Plus Jakarta Sans" },
+            { label: "Ikon", value: "Phosphor (regular)" },
+          ]}
+        />
 
-        {/* ══════════ TOMBOL ══════════ */}
-        <Section
-          id="tombol"
-          title="Tombol"
-          desc="Aksi utama. Variant primary selalu hitam — bukan kuning."
-        >
-          <Demo label="Variant">
-            <Button variant="primary">Primary</Button>
-            <Button variant="secondary">Secondary</Button>
-            <Button variant="ghost">Ghost</Button>
-            <Button variant="danger">Danger</Button>
-          </Demo>
-          <Demo label="Ukuran">
-            <Button size="sm">Kecil</Button>
-            <Button size="md">Sedang</Button>
-            <Button size="lg">Besar</Button>
-          </Demo>
-          <Demo label="Status">
-            <Button loading>Memuat</Button>
-            <Button disabled>Nonaktif</Button>
-            <Button leftIcon={Plus}>Dengan ikon</Button>
-            <Button rightIcon={ArrowRight}>Lanjut</Button>
-          </Demo>
-          <Demo label="CopyButton — klik untuk salin">
-            <CopyButton text="https://karir.kahade.id" />
-            <CopyButton text="kode-referral-123" label="Salin kode" />
-          </Demo>
-          <Demo label="ButtonLink — navigasi bertampang tombol (me-render <a>)">
-            <ButtonLink href="#tombol">Primary</ButtonLink>
-            <ButtonLink href="#tombol" variant="secondary">
-              Secondary
-            </ButtonLink>
-            <ButtonLink href="#tombol" variant="ghost" size="sm">
-              Ghost kecil
-            </ButtonLink>
-          </Demo>
-        </Section>
-
-        {/* ══════════ FORM ══════════ */}
-        <Section id="form" title="Form" desc="Input & kontrol formulir.">
-          <Demo label="Input">
-            <div className="w-full max-w-sm">
-              <Input label="Nama lengkap" placeholder="Nama kamu" hint="Sesuai KTP" />
-            </div>
-            <div className="w-full max-w-sm">
-              <Input label="Email" placeholder="nama@email.com" error="Format email tidak valid" />
-            </div>
-            <div className="w-full max-w-sm">
-              <Input label="Nonaktif" placeholder="Tidak bisa diisi" disabled />
-            </div>
-          </Demo>
-          <Demo label="Textarea & Select">
-            <div className="w-full max-w-sm">
-              <Textarea label="Alamat" placeholder="Jalan, kota…" rows={3} />
-            </div>
-            <div className="w-full max-w-sm">
-              <Select
-                label="Kota"
-                placeholder="Pilih kota"
-                options={[
-                  { value: "jkt", label: "Jakarta" },
-                  { value: "bdg", label: "Bandung" },
-                  { value: "sby", label: "Surabaya" },
-                ]}
-              />
-            </div>
-          </Demo>
-          <Demo label="SearchField">
-            <div className="w-full max-w-sm">
-              <SearchField
-                label="Pencarian"
-                placeholder="Cari lowongan…"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </div>
-            {search && (
-              <p className="w-full text-xs text-neutral-500">Mencari: “{search}”</p>
-            )}
-          </Demo>
-          <Demo label="PasswordInput & PhoneInput">
-            <div className="w-full max-w-sm">
-              <PasswordInput label="Kata sandi" placeholder="••••••••" hint="Minimal 8 karakter" />
-            </div>
-            <div className="w-full max-w-sm">
-              <PhoneInput label="Nomor HP" placeholder="81234567890" />
-            </div>
-          </Demo>
-          <Demo label="OtpInput — ketik / paste 6 digit">
-            <div className="w-full">
-              <OtpInput length={6} onComplete={(code) => setOtpCode(code)} autoFocus={false} />
-              {otpCode && (
-                <p className="mt-2 text-xs font-semibold text-green-700">
-                  Kode lengkap: {otpCode}
-                </p>
-              )}
-            </div>
-          </Demo>
-          <Demo label="FileUpload — seret atau klik">
-            <div className="w-full max-w-md">
-              <FileUpload
-                hint="PDF, maks 5 MB"
-                accept="application/pdf"
-                onFiles={(fl) => setFiles(Array.from(fl).map((f) => f.name))}
-              />
-              {files.length > 0 && (
-                <p className="mt-2 text-xs text-neutral-600">
-                  Dipilih: {files.join(", ")}
-                </p>
-              )}
-            </div>
-          </Demo>
-          <Demo label="Checkbox / Radio / Switch">
-            <div className="flex w-full flex-col gap-3">
-              <Checkbox label="Saya menyetujui syarat & ketentuan" defaultChecked />
-              <Checkbox label="Kirim notifikasi email" hint="Opsional" />
-              <div className="flex gap-6">
-                <Radio name="r1" label="Pria" defaultChecked />
-                <Radio name="r1" label="Wanita" />
+        <Container className="py-14 sm:py-20">
+          <div className="lg:grid lg:grid-cols-12 lg:gap-12">
+            <aside className="hidden lg:col-span-3 lg:block">
+              <div className="sticky top-28">
+                <Toc items={TOC} title="Isi" />
               </div>
-              <Switch
-                label="Aktifkan notifikasi"
-                checked={switchOn}
-                onChange={(e) => setSwitchOn(e.target.checked)}
-              />
-            </div>
-          </Demo>
-        </Section>
+            </aside>
+            <div className="min-w-0 lg:col-span-9">
+              <Toc items={TOC} title="Isi" variant="disclosure" className="mb-12 lg:hidden" />
 
-        {/* ══════════ NAVIGASI ══════════ */}
-        <Section id="navigasi" title="Navigasi" desc="Berpindah antar halaman & langkah.">
-          <Demo label="Tabs — coba panah kiri/kanan">
-            <div className="w-full">
-              <Tabs
-                tabs={[
-                  { id: "satu", label: "Tab Satu" },
-                  { id: "dua", label: "Tab Dua" },
-                  { id: "tiga", label: "Tab Tiga" },
-                ]}
-                activeId={tab}
-                onChange={setTab}
-                renderPanel={(id) => (
-                  <p className="text-sm text-neutral-600">
-                    Konten panel untuk <strong className="text-black">{id}</strong> — terhubung
-                    via aria-controls/tabpanel.
+              <Block id="prinsip" index="01" title="Prinsip">
+                <ol className="border-t border-line">
+                  {PRINCIPLES.map(([t, d], i) => (
+                    <li key={t} className="grid gap-2 border-b border-line py-5 sm:grid-cols-12 sm:gap-6">
+                      <span className="text-small tabular-nums text-fg-subtle sm:col-span-1">{String(i + 1).padStart(2, "0")}</span>
+                      <p className="text-h4 text-fg sm:col-span-4">{t}</p>
+                      <p className="text-body text-fg-muted sm:col-span-7">{d}</p>
+                    </li>
+                  ))}
+                </ol>
+              </Block>
+
+              <Block id="warna" index="02" title="Warna" description="Monokrom dengan token semantik. Pakai nama token, bukan hex.">
+                <div className="space-y-10">
+                  {COLOR_GROUPS.map((g) => (
+                    <Specimen key={g.title} label={g.title}>
+                      <div className="grid grid-cols-2 gap-px overflow-hidden rounded-panel border border-line bg-line md:grid-cols-4">
+                        {g.items.map((c) => (
+                          <div key={c.token} className="bg-surface">
+                            <div
+                              className={`flex h-24 items-end p-3 text-caption font-semibold tabular-nums ${c.dark ? "text-white" : "text-black"} ${c.border ? "border-b border-line" : ""}`}
+                              style={{ backgroundColor: c.hex }}
+                            >
+                              {c.hex}
+                            </div>
+                            <div className="p-3">
+                              <p className="text-small font-semibold text-fg">{c.token}</p>
+                              <p className="mt-0.5 text-caption text-fg-muted">{c.note}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </Specimen>
+                  ))}
+                </div>
+              </Block>
+
+              <Block id="tipografi" index="03" title="Tipografi" description="Plus Jakarta Sans. Skala fluid — tiap token membawa line-height, tracking, dan berat.">
+                <div className="border-t border-line">
+                  {TYPE_SCALE.map(([cls, sample, spec]) => (
+                    <div key={cls} className="grid gap-2 border-b border-line py-5 sm:grid-cols-12 sm:items-baseline sm:gap-6">
+                      <div className="sm:col-span-3">
+                        <p className="text-small font-semibold text-fg">{cls}</p>
+                        <p className="text-caption text-fg-subtle">{spec}</p>
+                      </div>
+                      <p className={`${cls} min-w-0 truncate text-fg sm:col-span-9`}>{sample}</p>
+                    </div>
+                  ))}
+                </div>
+              </Block>
+
+              <Block id="bentuk" index="04" title="Radius & bayangan" description="Empat radius, dua bayangan. Tidak lebih.">
+                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                  {[
+                    ["rounded-tag", "6px — kbd, label"],
+                    ["rounded-control", "12px — input, menu"],
+                    ["rounded-panel", "20px — panel, gambar"],
+                    ["rounded-full", "pil — tombol, avatar"],
+                  ].map(([cls, note]) => (
+                    <Specimen key={cls} label={cls}>
+                      <div className={`h-24 border border-line-strong bg-surface-2 ${cls}`} />
+                      <p className="mt-2 text-caption text-fg-muted">{note}</p>
+                    </Specimen>
+                  ))}
+                </div>
+                <div className="mt-10 grid gap-6 sm:grid-cols-2">
+                  {[
+                    ["shadow-soft", "Panel yang sedikit terangkat"],
+                    ["shadow-lift", "Lapisan melayang: menu, modal, mockup"],
+                  ].map(([cls, note]) => (
+                    <Specimen key={cls} label={cls}>
+                      <div className={`h-28 rounded-panel border border-line bg-surface ${cls}`} />
+                      <p className="mt-2 text-caption text-fg-muted">{note}</p>
+                    </Specimen>
+                  ))}
+                </div>
+              </Block>
+
+              <Block id="logo" index="05" title="Logo" description="Mark tanpa wordmark. Hitam di terang, kuning di gelap, ubin untuk ikon aplikasi.">
+                <div className="grid gap-px overflow-hidden rounded-panel border border-line bg-line sm:grid-cols-3">
+                  <div className="flex h-40 items-center justify-center bg-surface"><Logo size={64} tone="ink" title="Mark hitam" /></div>
+                  <div className="flex h-40 items-center justify-center bg-black"><Logo size={64} tone="brand" title="Mark kuning" /></div>
+                  <div className="flex h-40 items-center justify-center bg-surface-2"><LogoTile size={72} title="Ikon aplikasi" /></div>
+                </div>
+              </Block>
+
+              <Block id="kerangka" index="06" title="Kerangka situs" description="SiteHeader dan SiteFooter bersumber dari peta ecosystem.ts — tautan lintas situs selalu konsisten.">
+                <Prose className="max-w-reading">
+                  <p>
+                    Setiap situs membungkus <code>SiteHeader</code> dalam komponen client kecil (untuk
+                    <code>usePathname</code> dan <code>next/link</code>), lalu memasang <code>SiteFooter</code> di
+                    layout. Mark selalu menuju kahade.id; label produk menuju beranda situs. Lihat
+                    <code>docs/DESIGN-LANGUAGE.md</code>.
                   </p>
-                )}
-              />
-            </div>
-          </Demo>
-          <Demo label="Breadcrumb">
-            <Breadcrumb
-              items={[
-                { label: "Beranda", href: "#" },
-                { label: "Karier", href: "#" },
-                { label: "Co-Founder / COO" },
-              ]}
-            />
-          </Demo>
-          <Demo label="Pagination">
-            <Pagination page={page} totalPages={10} onChange={setPage} />
-            <p className="w-full text-xs text-neutral-500">Halaman aktif: {page}</p>
-          </Demo>
-          <Demo label="Steps">
-            <div className="w-full max-w-md">
-              <Steps
-                current={step}
-                steps={[
-                  { label: "Isi data", description: "Lengkapi profil kamu" },
-                  { label: "Upload CV", description: "Format PDF, maks 5 MB" },
-                  { label: "Verifikasi", description: "Jawab soal verifikasi" },
-                  { label: "Selesai" },
-                ]}
-              />
-              <div className="mt-2 flex gap-2">
-                <Button size="sm" variant="secondary" onClick={() => setStep((s) => Math.max(0, s - 1))}>
-                  Mundur
-                </Button>
-                <Button size="sm" onClick={() => setStep((s) => Math.min(4, s + 1))}>
-                  Maju
-                </Button>
-              </div>
-            </div>
-          </Demo>
-          <Demo label="DropdownMenu">
-            <DropdownMenu
-              trigger={
-                <Button variant="secondary" size="sm" leftIcon={DotsThree}>
-                  Menu
-                </Button>
-              }
-              items={[
-                { label: "Ubah", icon: Pencil, onClick: () => alert("Ubah diklik") },
-                { label: "Unduh", icon: Download, onClick: () => alert("Unduh diklik") },
-                { label: "Hapus", icon: Trash, danger: true, onClick: () => alert("Hapus diklik") },
-              ]}
-            />
-          </Demo>
-        </Section>
+                </Prose>
+                <div className="mt-8 grid gap-6 md:grid-cols-2">
+                  <Specimen label="Header — situs dalam">
+                    <div className="flex h-16 items-center gap-3 rounded-control border border-line px-5">
+                      <Logo size={24} tone="ink" title="" />
+                      <span aria-hidden="true" className="h-5 w-px bg-line-strong" />
+                      <span className="text-[15px] font-semibold">Bantuan</span>
+                      <span className="ml-6 hidden text-[15px] font-medium text-fg-muted sm:inline">FAQ</span>
+                      <span className="ml-5 hidden text-[15px] font-medium text-fg sm:inline">Kontak</span>
+                    </div>
+                  </Specimen>
+                  <Specimen label="Header — situs utama">
+                    <div className="flex h-16 items-center gap-3 rounded-control border border-line px-5">
+                      <Logo size={24} tone="ink" title="" />
+                      <span className="ml-auto inline-flex h-9 items-center rounded-full bg-fg px-4 text-[14px] font-semibold text-white">Unduh aplikasi</span>
+                    </div>
+                  </Specimen>
+                </div>
+              </Block>
 
-        {/* ══════════ DATA ══════════ */}
-        <Section id="data" title="Data" desc="Tampilkan informasi terstruktur.">
-          <Demo label="Card interaktif — arahkan kursor">
-            <Card interactive className="max-w-xs !p-5">
-              <p className="text-sm font-bold text-black">Kartu bisa diklik</p>
-              <p className="mt-1 text-xs text-neutral-500">
-                Hover: terangkat + shadow. Props <code className="font-mono">interactive</code>.
-              </p>
-            </Card>
-          </Demo>
-          <Demo label="Table">
-            <div className="w-full overflow-x-auto">
-              <Table>
-                <THead>
-                  <TR>
-                    <TH>Nama</TH>
-                    <TH>Posisi</TH>
-                    <TH>Status</TH>
-                    <TH>Lokasi</TH>
-                  </TR>
-                </THead>
-                <TBody>
-                  <TR>
-                    <TD>Budi Santoso</TD>
-                    <TD>Backend Developer</TD>
-                    <TD><Badge variant="success">Diterima</Badge></TD>
-                    <TD>Remote</TD>
-                  </TR>
-                  <TR>
-                    <TD>Siti Rahma</TD>
-                    <TD>UI/UX Designer</TD>
-                    <TD><Badge variant="warning">Wawancara</Badge></TD>
-                    <TD>Jakarta</TD>
-                  </TR>
-                  <TR>
-                    <TD>Andi Pratama</TD>
-                    <TD>QA Engineer</TD>
-                    <TD><Badge variant="neutral">Baru</Badge></TD>
-                    <TD>Bandung</TD>
-                  </TR>
-                </TBody>
-              </Table>
-            </div>
-          </Demo>
-          <Demo label="ListItem">
-            <div className="w-full max-w-md divide-y divide-neutral-100 rounded-2xl border border-neutral-200">
-              <ListItem
-                title="Co-Founder / COO"
-                description="Remote · Penuh waktu"
-                trailing={<Badge variant="brand">15%</Badge>}
-                onClick={() => alert("Item diklik")}
-              />
-              <ListItem
-                title="Growth Lead"
-                description="Remote · Penuh waktu"
-                trailing={<Badge variant="neutral">2–3%</Badge>}
-                onClick={() => alert("Item diklik")}
-              />
-              <ListItem title="Tanpa aksi" description="Baris statis tanpa onClick" />
-            </div>
-          </Demo>
-          <Demo label="Stat">
-            <div className="grid w-full gap-3 sm:grid-cols-3">
-              <Stat label="Pelamar" value="128" delta={{ value: "+12 minggu ini", up: true }} />
-              <Stat label="Lowongan aktif" value="9" />
-              <Stat label="Ditolak" value="23" delta={{ value: "-4 minggu ini", up: false }} />
-            </div>
-          </Demo>
-          <Demo label="Avatar">
-            <Avatar name="Budi Santoso" size="sm" />
-            <Avatar name="Budi Santoso" size="md" />
-            <Avatar name="Siti Rahma" size="lg" />
-          </Demo>
-          <Demo label="Badge">
-            <Badge variant="neutral">Netral</Badge>
-            <Badge variant="success">Sukses</Badge>
-            <Badge variant="warning">Peringatan</Badge>
-            <Badge variant="danger">Bahaya</Badge>
-            <Badge variant="brand">Brand</Badge>
-          </Demo>
-        </Section>
+              <Block id="pola" index="07" title="Pola halaman" description="Pengganti grid kartu: indeks berhairline, pasangan istilah–keterangan, daftar isi, dan prose.">
+                <div className="space-y-12">
+                  <Specimen label="Breadcrumb · Eyebrow">
+                    <Breadcrumb items={[{ label: "Legal", href: "#pola" }, { label: "Syarat & Ketentuan" }]} />
+                    <Eyebrow index="02" className="mt-6">Keamanan</Eyebrow>
+                  </Specimen>
+                  <Specimen label="IndexList">
+                    <IndexList
+                      items={[
+                        { href: "#pola", index: "01", title: "Syarat & Ketentuan", description: "Aturan penggunaan aplikasi Kahade.", meta: "Versi 1.0" },
+                        { href: "#pola", index: "02", title: "Kebijakan Privasi", description: "Data yang kami kumpulkan dan hak Anda.", meta: "Versi 1.0" },
+                        { href: "https://bantuan.kahade.id/", index: "03", title: "Pusat bantuan", description: "Tautan ke situs lain memakai panah serong.", external: true },
+                      ]}
+                    />
+                  </Specimen>
+                  <Specimen label="DescriptionList">
+                    <DescriptionList
+                      items={[
+                        { term: "Unduh & buat akun", detail: "Gratis." },
+                        { term: "Posting produk", detail: "Gratis. Unggah sebanyak yang kamu mau." },
+                        { term: "Biaya layanan transaksi", detail: "Ditampilkan sebelum kamu membayar." },
+                      ]}
+                    />
+                  </Specimen>
+                  <Specimen label="Prose">
+                    <Prose className="max-w-reading">
+                      <h2>Posisi Kahade sebagai platform</h2>
+                      <p>
+                        Kahade adalah <strong>platform</strong> yang mempertemukan pembeli dan penjual. Tipografi
+                        baca 17–18px, line-height 1,75, lebar maksimum 680px.
+                      </p>
+                      <ul>
+                        <li>Daftar memakai penanda abu redup.</li>
+                        <li>Tautan bergaris bawah tipis yang menebal saat hover.</li>
+                      </ul>
+                    </Prose>
+                  </Specimen>
+                </div>
+              </Block>
 
-        {/* ══════════ FEEDBACK ══════════ */}
-        <Section id="feedback" title="Feedback" desc="Umpan balik & status ke pengguna.">
-          <Demo label="Alert">
-            <div className="w-full space-y-3">
-              <Alert variant="info" title="Info">Lamaran kamu sedang ditinjau tim kami.</Alert>
-              <Alert variant="success" title="Berhasil">CV berhasil diunggah.</Alert>
-              <Alert variant="warning" title="Perhatian">Sesi verifikasi hampir kedaluwarsa.</Alert>
-              <Alert variant="danger" title="Gagal">Jawaban verifikasi salah, coba lagi.</Alert>
-            </div>
-          </Demo>
-          <Demo label="Banner">
-            <div className="w-full space-y-3 overflow-hidden rounded-2xl">
-              <Banner
-                variant="info"
-                message="Pendaftaran batch 2 dibuka minggu depan"
-                action={{ label: "Daftar", onClick: () => alert("Aksi diklik") }}
-              />
-              <Banner variant="brand" message="Kahade lolos seleksi akselerator 🎉" />
-            </div>
-          </Demo>
-          <Demo label="Modal">
-            <Button onClick={() => setModalOpen(true)}>Buka modal</Button>
-            <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Hapus lamaran?">
-              <p className="text-sm text-neutral-600">
-                Data lamaran dan CV akan dihapus permanen dan tidak bisa dikembalikan.
-              </p>
-              <div className="mt-5 flex justify-end gap-2">
-                <Button variant="ghost" onClick={() => setModalOpen(false)}>Batal</Button>
-                <Button variant="danger" onClick={() => setModalOpen(false)}>Ya, hapus</Button>
-              </div>
-            </Modal>
-          </Demo>
-          <Demo label="Tooltip — arahkan kursor">
-            <Tooltip label="Ini tooltip">
-              <Button variant="secondary" size="sm">Arahkan aku</Button>
-            </Tooltip>
-          </Demo>
-          <Demo label="Progress">
-            <div className="w-full max-w-md">
-              <Progress value={progress} label="Kelengkapan profil" />
-              <input
-                type="range"
-                min={0}
-                max={100}
-                value={progress}
-                onChange={(e) => setProgress(Number(e.target.value))}
-                className="mt-3 w-full accent-black"
-                aria-label="Ubah progres"
-              />
-              <div className="mt-2">
-                <Progress value={30} size="sm" />
-              </div>
-            </div>
-          </Demo>
-          <Demo label="Skeleton & Spinner">
-            <div className="w-full max-w-sm space-y-2">
-              <Skeleton width="w-3/5" height="h-4" />
-              <Skeleton width="w-full" height="h-4" />
-              <Skeleton width="w-2/5" height="h-4" />
-            </div>
-            <Spinner />
-            <Spinner size={32} label="Memuat data…" />
-          </Demo>
-          <Demo label="EmptyState">
-            <div className="w-full max-w-md">
-              <EmptyState
-                icon={Tray}
-                title="Belum ada lamaran"
-                description="Lowongan yang kamu lamar akan muncul di sini."
-                action={<Button size="sm">Lihat lowongan</Button>}
-              />
-            </div>
-          </Demo>
-          <Demo label="Divider">
-            <div className="w-full space-y-4">
-              <Divider />
-              <Divider label="atau lanjutkan dengan" />
-              <div className="flex h-16 items-center gap-4">
-                <span className="text-xs text-neutral-400">Kiri</span>
-                <Divider orientation="vertical" />
-                <span className="text-xs text-neutral-400">Kanan</span>
-              </div>
-            </div>
-          </Demo>
-          <Demo label="Accordion">
-            <div className="w-full max-w-xl">
-              <Accordion
-                items={[
-                  {
-                    id: "a1",
-                    title: "Apakah ada gaji?",
-                    content: "Tim awal tanpa gaji — sebagai gantinya saham/equity dengan skema vesting transparan.",
-                  },
-                  {
-                    id: "a2",
-                    title: "Di mana lokasi kerja?",
-                    content: "Remote (Indonesia). Beberapa posisi boleh hybrid dari Jakarta.",
-                    defaultOpen: true,
-                  },
-                  {
-                    id: "a3",
-                    title: "Bagaimana data saya dilindungi?",
-                    content: "Sesuai Kebijakan Privasi dan UU PDP. Data pelamar yang ditolak dihapus otomatis maksimal 90 hari.",
-                  },
-                ]}
-              />
-            </div>
-          </Demo>
-          <Demo label="Ikon — wrapper Phosphor">
-            <div className="flex items-center gap-4 text-neutral-500">
-              <Icon icon={Bell} size={20} />
-              <Icon icon={Pencil} size={20} />
-              <Icon icon={Trash} size={20} />
-              <Icon icon={Download} size={20} />
-            </div>
-            <p className="w-full text-xs text-neutral-400">
-              Selalu via wrapper <code className="font-mono">Icon</code>, weight regular default.
-            </p>
-          </Demo>
-        </Section>
+              <Block id="tombol" index="08" title="Tombol & tautan">
+                <ButtonsDemo />
+              </Block>
 
-        <Section
-          id="aksesibilitas"
-          title="Aksesibilitas"
-          desc="Semua komponen bisa dioperasikan penuh dengan keyboard. Coba: Tab untuk berpindah, Enter/Space untuk aktivasi, panah kiri/kanan di Tabs, ESC untuk menutup Modal & DropdownMenu."
-        >
-          <ul className="list-disc space-y-2 pl-5 text-sm text-neutral-700">
-            <li>
-              <strong className="text-black">Modal</strong> — focus trap: Tab berputar di dalam
-              dialog, fokus kembali ke tombol pemicu saat ditutup. Coba buka modal di section
-              Feedback lalu tekan Tab berulang.
-            </li>
-            <li>
-              <strong className="text-black">Tabs</strong> — panah kiri/kanan, Home, End untuk
-              pindah tab; roving tabindex (hanya tab aktif yang terjangkau Tab).
-            </li>
-            <li>
-              <strong className="text-black">Form</strong> — label terasosiasi, hint & error
-              terbaca screen reader via <code className="font-mono">aria-describedby</code>,
-              error memakai <code className="font-mono">role="alert"</code>.
-            </li>
-            <li>
-              <strong className="text-black">Switch</strong> — <code className="font-mono">role="switch"</code>;
-              {" "}<strong className="text-black">OtpInput</strong> — tiap kotak berlabel
-              "Digit ke-N"; <strong className="text-black">CopyButton</strong> mengumumkan
-              "Tersalin!" via live region.
-            </li>
-            <li>
-              <strong className="text-black">Animasi</strong> — semua ≤200ms dan otomatis
-              dimatikan bila pengguna mengaktifkan{" "}
-              <code className="font-mono">prefers-reduced-motion</code>.
-            </li>
-          </ul>
-        </Section>
+              <Block id="form" index="09" title="Form" description="Tinggi 48px, batas kontrol ≥3:1, fokus hitam, pesan galat dengan ikon.">
+                <FormDemo />
+              </Block>
+
+              <Block id="navigasi" index="10" title="Navigasi">
+                <NavigationDemo />
+              </Block>
+
+              <Block id="data" index="11" title="Data">
+                <div className="space-y-12">
+                  <Specimen label="Stat — hanya angka yang bersumber">
+                    <div className="grid gap-8 sm:grid-cols-3">
+                      <Stat label="Biaya transaksi" value="2,5%" hint="Min Rp2.500 · maks Rp250.000" />
+                      <Stat label="Launch publik" value="8 Des 2026" />
+                      <Stat label="Versi dokumen" value="1.0" />
+                    </div>
+                  </Specimen>
+                  <Specimen label="Table">
+                    <div className="overflow-x-auto">
+                      <Table>
+                        <THead>
+                          <TR><TH>Layanan</TH><TH>Status</TH><TH>Diperbarui</TH></TR>
+                        </THead>
+                        <TBody>
+                          <TR><TD className="font-semibold text-fg">API</TD><TD><Badge variant="success">Operasional</Badge></TD><TD>4 Oktober 2026</TD></TR>
+                          <TR><TD className="font-semibold text-fg">Aplikasi Mobile</TD><TD><Badge variant="warning">Gangguan</Badge></TD><TD>4 Oktober 2026</TD></TR>
+                          <TR><TD className="font-semibold text-fg">OTP WhatsApp</TD><TD><Badge variant="danger">Tidak beroperasi</Badge></TD><TD>4 Oktober 2026</TD></TR>
+                        </TBody>
+                      </Table>
+                    </div>
+                  </Specimen>
+                  <div className="grid gap-12 md:grid-cols-2">
+                    <Specimen label="Steps">
+                      <Steps
+                        current={2}
+                        steps={[
+                          { label: "Dana diamankan", description: "Aman di Kahade" },
+                          { label: "Barang dikirim", description: "Resi tercatat" },
+                          { label: "Konfirmasi terima", description: "Menunggu pembeli" },
+                          { label: "Dana cair" },
+                        ]}
+                      />
+                    </Specimen>
+                    <Specimen label="Badge · StatusDot · Avatar · Kbd">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Badge>Netral</Badge>
+                        <Badge variant="outline">Garis</Badge>
+                        <Badge variant="dark">Tegas</Badge>
+                        <Badge variant="success">Berhasil</Badge>
+                        <Badge variant="warning">Perhatian</Badge>
+                        <Badge variant="danger">Gagal</Badge>
+                      </div>
+                      <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-small text-fg-muted">
+                        <span className="flex items-center gap-2"><StatusDot tone="positive" />Operasional</span>
+                        <span className="flex items-center gap-2"><StatusDot tone="caution" />Gangguan</span>
+                        <span className="flex items-center gap-2"><StatusDot tone="critical" />Tidak beroperasi</span>
+                      </div>
+                      <div className="mt-5 flex flex-wrap items-center gap-3">
+                        <Avatar name="Muhammad Agung" size="sm" />
+                        <Avatar name="Kahade" />
+                        <Avatar name="Toko Contoh" size="lg" />
+                        <span className="ml-3 text-small text-fg-muted">Tekan <Kbd>Esc</Kbd> untuk menutup</span>
+                      </div>
+                    </Specimen>
+                  </div>
+                  <Specimen label="Skeleton">
+                    <div className="max-w-md space-y-3">
+                      <Skeleton height="h-5" width="w-2/3" />
+                      <Skeleton />
+                      <Skeleton width="w-5/6" />
+                    </div>
+                  </Specimen>
+                </div>
+              </Block>
+
+              <Block id="umpan-balik" index="12" title="Umpan balik">
+                <div className="space-y-4">
+                  <Alert title="Catatan tinjauan hukum">Dokumen ini akan ditinjau ulang sebelum peluncuran.</Alert>
+                  <Alert variant="success" title="Lamaran terkirim">Kami akan menghubungimu lewat email.</Alert>
+                  <Alert variant="warning" title="Sesi hampir berakhir">Simpan perubahanmu.</Alert>
+                  <Alert variant="danger" title="Gagal mengirim">Periksa koneksi lalu coba lagi.</Alert>
+                </div>
+                <FeedbackDemo />
+              </Block>
+            </div>
+          </div>
+        </Container>
       </main>
 
-      <footer className="border-t border-neutral-200">
-        <div className="mx-auto flex max-w-5xl items-center gap-3 px-5 py-6">
-          <Logo size={22} />
-          <p className="text-xs text-neutral-400">
-            @kahade/ui v0.3.0 — Design System Kahade · PT Kawal Hak Dengan Aman
-          </p>
-        </div>
+      <footer className="border-t border-line bg-surface-2">
+        <Container className="flex flex-col gap-2 py-8 text-caption text-fg-muted sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} PT Kawal Hak Dengan Aman · @kahade/ui v{DS_VERSION}</p>
+          <TextLink href="https://kahade.id/" arrow="external" className="text-caption!">kahade.id</TextLink>
+        </Container>
       </footer>
-    </div>
+    </>
   );
 }
+

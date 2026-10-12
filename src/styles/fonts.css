@@ -1,15 +1,16 @@
 /**
- * Plus Jakarta Sans — dimuat via <link> di <head> (lihat layout),
- * BUKAN via CSS @import.
+ * Plus Jakarta Sans — cara memuat yang direkomendasikan (v1):
  *
- * Alasan: @import url(...) Google Fonts di dalam file CSS yang diimpor
- * SETELAH "tailwindcss" menjadi invalid — aturan CSS mewajibkan semua
- * @import mendahului @layer. Dengan <link>, font selalu termuat benar.
- * Pola ini terbukti tampil konsisten di semua perangkat (termasuk Android
- * yang bermasalah dengan font self-hosted via next/font).
+ *   import { Plus_Jakarta_Sans } from "next/font/google";
+ *   const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], display: "swap", variable: "--font-sans" });
+ *   <html className={jakarta.variable}>…
  *
- * URL: https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap
+ * PENTING: pasang `jakarta.variable` di <html>, bukan <body>. Token
+ * `--font-sans` dibaca di :root; variabel yang hanya ada di <body> membuat
+ * font jatuh ke fallback (akar masalah "font tidak tampil" di v0).
  *
- * File ini sengaja dikosongkan sebagai penanda — jangan hapus agar
- * dokumentasi pemakaian tetap satu tempat.
+ * Alternatif tanpa Next.js: <link> ke GOOGLE_FONTS_URL (lihat tokens.ts) —
+ * memblokir render, jadi hanya bila next/font tidak tersedia.
+ *
+ * File ini sengaja kosong sebagai penanda dokumentasi.
  */

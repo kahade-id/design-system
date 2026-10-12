@@ -1,4 +1,10 @@
 @import "tailwindcss";
 @import "@kahade/ui/tokens.css";
-@import "@kahade/ui/styles/fonts.css";
 @import "@kahade/ui/styles/base.css";
+
+/* Tailwind v4 tidak men-scan node_modules — wajib agar utility DS ter-generate. */
+@source "../node_modules/@kahade/ui/src";
+
+html {
+  scroll-behavior: smooth;
+}

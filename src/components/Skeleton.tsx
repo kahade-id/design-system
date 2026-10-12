@@ -23,7 +23,7 @@ export function Skeleton({
   return (
     <div
       aria-hidden
-      className={`animate-shimmer ${circle ? 'rounded-full' : 'rounded-lg'} ${width} ${height} ${className}`}
+      className={`animate-shimmer ${circle ? 'rounded-full' : 'rounded-tag'} ${width} ${height} ${className}`}
       {...rest}
     />
   );

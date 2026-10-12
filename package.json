@@ -1,5 +1,5 @@
 {
-  "description": "Design System Kahade — komponen & token UI bersama untuk semua web Kahade",
+  "description": "Kahade Design Language — token, komponen, dan kerangka situs bersama untuk semua web Kahade",
   "devDependencies": {
     "@phosphor-icons/react": "^2.1.10",
     "@types/react": "^19.1.0",
@@ -27,5 +27,5 @@
   "scripts": {
     "typecheck": "tsc --noEmit"
   },
-  "version": "0.5.2"
+  "version": "1.0.0"
 }

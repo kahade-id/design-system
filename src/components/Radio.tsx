@@ -44,22 +44,22 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
           />
           <span
             className={[
-              'mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2',
+              'mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-[1.5px]',
               'transition-colors duration-150',
-              'peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-neutral-900 peer-focus-visible:ring-offset-2',
-              error ? 'border-red-500' : 'border-neutral-300',
-              'peer-checked:border-black',
+              'peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-fg peer-focus-visible:ring-offset-2',
+              error ? 'border-critical' : 'border-line-control',
+              'peer-checked:border-fg',
               'peer-disabled:opacity-40 peer-disabled:cursor-not-allowed',
-              "after:content-[''] after:h-2.5 after:w-2.5 after:rounded-full after:bg-black after:scale-0 after:transition-transform after:duration-150",
+              "after:content-[''] after:h-2.5 after:w-2.5 after:rounded-full after:bg-fg after:scale-0 after:transition-transform after:duration-150",
               'peer-checked:after:scale-100',
               className,
             ].join(' ')}
           />
           {label && (
-            <span className="text-sm text-black">
+            <span className="text-small text-fg">
               {label}
               {hint && (
-                <span id={hintId} className="mt-0.5 block text-xs text-neutral-500">
+                <span id={hintId} className="mt-0.5 block text-caption text-fg-muted">
                   {hint}
                 </span>
               )}

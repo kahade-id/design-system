@@ -1,143 +1,115 @@
-# @kahade/ui — Design System Kahade
+# @kahade/ui — Kahade Design Language
 
-Komponen & token UI bersama untuk semua web Kahade (karir, legal, landing, admin).
-Gaya: Apple-clean, monokrom — kuning `#FFD200` **hanya** untuk mark logo.
+Token, komponen, dan kerangka situs bersama untuk semua web Kahade:
+kahade.id, bantuan, artikel, karir, legal, status, dan investor.
+
+- **Bahasa desain:** [`docs/DESIGN-LANGUAGE.md`](docs/DESIGN-LANGUAGE.md) — wajib dibaca sebelum mengubah UI.
+- **Audit yang melatarbelakangi v1:** [`docs/AUDIT-2026-10.md`](docs/AUDIT-2026-10.md)
+- **Riwayat rilis:** [`CHANGELOG.md`](CHANGELOG.md)
+- **Showcase visual:** `site/` (Next.js)
 
 ## Install
 
 ```bash
-npm install github:kahade-id/design-system#v0.4.0
+npm install github:kahade-id/design-system#v1.0.0
 ```
 
-## Setup
+Paket dikirim sebagai source TypeScript (tanpa build step).
 
-**1. `next.config.ts`** — transpile package (dikirim sebagai source, tanpa build step):
+## Setup (Next.js 16 + Tailwind v4)
+
+**1. `next.config.ts`**
 
 ```ts
-import type { NextConfig } from 'next';
-
 const nextConfig: NextConfig = {
-  transpilePackages: ['@kahade/ui'],
+  transpilePackages: ["@kahade/ui"],
 };
-
-export default nextConfig;
 ```
 
-**2. CSS global** (mis. `app/globals.css`) — urutan import penting:
+**2. `app/globals.css`** — urutan penting:
 
 ```css
 @import "tailwindcss";
 @import "@kahade/ui/tokens.css";
-@import "@kahade/ui/styles/fonts.css";
 @import "@kahade/ui/styles/base.css";
+
+/* WAJIB: Tailwind v4 tidak men-scan node_modules */
+@source "../node_modules/@kahade/ui/src";
 ```
 
-**3. Font Plus Jakarta Sans** — via `<link>` di `<head>` (jangan CSS `@import`,
-karena `@import` url setelah `@import "tailwindcss"` invalid menurut aturan CSS):
+**3. Font Plus Jakarta Sans** — `next/font/google` dengan `variable: "--font-sans"`,
+dipasang di `<html>` (bukan `<body>`):
 
 ```tsx
-<head>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
-    rel="stylesheet"
-  />
-</head>
+const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], display: "swap", variable: "--font-sans" });
+<html lang="id" className={jakarta.variable}>
 ```
 
-**4. Pakai komponen:**
+**4. Kerangka situs** — header (wrapper client) + footer:
 
 ```tsx
-import { Button, Input, Card, Logo } from '@kahade/ui';
-import { ArrowRight } from '@phosphor-icons/react';
+// components/site/Header.tsx
+"use client";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { SiteHeader } from "@kahade/ui";
 
-export default function Contoh() {
+export function Header() {
   return (
-    <Card>
-      <Logo size={28} />
-      <Input label="Nama lengkap" placeholder="Nama kamu" />
-      <Button rightIcon={ArrowRight}>Kirim</Button>
-    </Card>
+    <SiteHeader
+      site="bantuan"
+      nav={[{ href: "/faq", label: "FAQ" }, { href: "/kontak", label: "Kontak" }]}
+      pathname={usePathname()}
+      linkAs={Link}
+    />
   );
 }
 ```
 
-Token Tailwind yang tersedia: `font-sans`, `text-ink`, `bg-paper`, `bg-brand`,
-`text-brand`, `rounded-xl2`, `shadow-soft`, `shadow-lift`
-(netral memakai bawaan Tailwind `neutral-*`).
-
-## Daftar komponen
-
-| Komponen | Props utama |
-|---|---|
-| `Button` | `variant`: primary/secondary/ghost/danger · `size`: sm/md/lg · `loading` · `leftIcon`/`rightIcon` (Phosphor) |
-| `Input` / `Textarea` | `label`, `hint`, `error`, semua props native |
-| `Select` | `label`, `hint`, `error`, `options: {value,label}[]`, `placeholder` |
-| `Checkbox` / `Radio` / `Switch` | `label`, `hint` (label bisa diklik) |
-| `Badge` | `variant`: neutral/success/warning/danger/brand |
-| `Card` | `className` (padding default `p-6`) |
-| `Alert` | `variant`: info/success/warning/danger · `title` |
-| `Modal` | `open`, `onClose`, `title` (ESC & klik overlay menutup) |
-| `Tabs` | `tabs: {id,label}[]`, `activeId`, `onChange` |
-| `Accordion` | `items: {id,title,content,defaultOpen?}[]` |
-| `Table`, `THead`, `TBody`, `TR`, `TH`, `TD` | presentasional |
-| `Pagination` | `page`, `totalPages`, `onChange` |
-| `EmptyState` | `icon`, `title`, `description`, `action` |
-| `Skeleton` | `width`, `height`, `circle` · `Spinner`: `size`, `label` |
-| `Avatar` | `src?`, `name` (initials fallback), `size`: sm/md/lg |
-| `Tooltip` | `label` (CSS-only, posisi atas) |
-| `Logo` | `size` (mark zigzag #FFD200) |
-| `Icon` | `icon` (komponen Phosphor), `size`, `weight` |
-| `FileUpload` | dropzone: `accept`, `multiple`, `hint`, `error`, `onFiles` |
-| `SearchField` | `clearable`, `onClear` (controlled/uncontrolled) |
-| `OtpInput` | `length` (default 6), `onComplete(code)` — auto-advance & paste |
-| `PasswordInput` | seperti `Input` + toggle intip Eye/EyeSlash |
-| `PhoneInput` | prefix `countryCode` tetap (default +62), hanya digit |
-| `Progress` | `value` 0–100, `size`: sm/md |
-| `Steps` | `steps: {label, description?}[]`, `current` |
-| `Breadcrumb` | `items: {label, href?}[]` |
-| `Divider` | `label?`, `orientation`: horizontal/vertical |
-| `DropdownMenu` | `trigger`, `items: {label, icon?, onClick, danger?}[]` |
-| `Stat` | `label`, `value`, `delta: {value, up}` |
-| `Banner` | `variant`: info/brand, `message`, `action?`, `dismissible` |
-| `CopyButton` | `text`, `label` — salin clipboard + "Tersalin!" |
-| `ListItem` | `leading?`, `title`, `description?`, `trailing?`, `onClick?` |
-
-Token non-CSS (untuk React Native / kanvas):
-
-```ts
-import { colors, fontFamily, radii, shadows } from '@kahade/ui';
+```tsx
+// app/layout.tsx
+<html lang="id" data-scroll-behavior="smooth">
+  <body>
+    <a href="#konten-utama" className="kh-skip-link">Lewati ke konten utama</a>
+    <Header />
+    <main id="konten-utama" tabIndex={-1} className="outline-none">{children}</main>
+    <SiteFooter site="bantuan" linkAs={Link} />
+  </body>
+</html>
 ```
 
-## Aturan brand
+## Isi paket
 
-1. **Kuning `#FFD200` HANYA untuk mark logo** (`Logo`, `bg-brand` untuk aksen logo). Jangan pakai untuk tombol, link, atau UI umum.
-2. **Ikon Phosphor** — selalu via wrapper `Icon`, `weight="regular"` default. Jangan pasang `className` langsung di ikon Phosphor.
-3. **Bahasa UI Indonesia** — semua label, pesan error, dan teks komponen berbahasa Indonesia.
-4. **Jangan pakai `bg-*` generik di dalam komponen** — komponen ini memakai literal Tailwind agar konsisten.
-5. Fokus jelas: semua elemen interaktif punya `focus-visible` ring.
+| Kelompok | Ekspor |
+|---|---|
+| Kerangka | `SiteHeader`, `SiteFooter`, `SITES`, `FOOTER_COLUMNS`, `COMPANY`, `localizeHref` |
+| Layout & pola | `Container`, `Section`, `PageHeader`, `SectionHeader`, `Eyebrow`, `IndexList`, `DescriptionList`, `Prose`, `Toc`, `TextLink`, `Reveal` |
+| Aksi | `Button`, `ButtonLink`, `IconButton`, `CopyButton`, `buttonClasses` |
+| Form | `Input`, `Textarea`, `Select`, `SearchField`, `PasswordInput`, `PhoneInput`, `OtpInput`, `FileUpload`, `Checkbox`, `Radio`, `Switch` |
+| Navigasi | `Tabs`, `Accordion`, `Breadcrumb`, `Pagination`, `DropdownMenu` |
+| Data | `Table` (+`THead/TBody/TR/TH/TD`), `Stat`, `Steps`, `Badge`, `StatusDot`, `Avatar`, `Kbd`, `Progress`, `Skeleton`, `Spinner`, `ListItem`, `Divider` |
+| Umpan balik | `Alert`, `Banner`, `Modal`, `Tooltip`, `EmptyState` |
+| Brand | `Logo` (`tone`), `LogoTile`, `LOGO_PATHS`, `LOGO_VIEWBOX` |
+| Token TS | `colors`, `radii`, `shadows`, `layout`, `fontFamily`, `GOOGLE_FONTS_URL`, `DS_VERSION` |
 
-## Changelog
+## Aturan singkat
 
-- **v0.4.0** — Audit mendalam: perbaiki ikon check Checkbox yang tampil saat unchecked, overlay DropdownMenu tak lagi masuk urutan Tab + ArrowDown fokus ke item pertama + ESC di dalam menu, Avatar tak lagi diumumkan ganda saat pakai foto, timer CopyButton dibersihkan saat unmount, effect Modal tak me-restart saat onClose tak stabil, Pagination menjepit halaman ke rentang valid, OtpInput reset saat `length` berubah, animasi panel Tabs berulang tiap ganti tab, `aria-busy` di Button loading, kontras label Divider & hint Stat dinaikkan (neutral-500), kode negara PhoneInput diumumkan ke screen reader, Tooltip membungkus label panjang.
-- **v0.3.0** — Poles visual & aksesibilitas: animasi micro-interaction (fade/zoom/slide ≤200ms, shimmer Skeleton, pulse-ring Steps), **focus trap Modal** + fokus kembali ke pemicu, keyboard nav Tabs (panah/Home/End, roving tabindex, tabpanel), ESC + fokus-kembali di DropdownMenu, ARIA lengkap (role switch/status/alert, aria-describedby di semua field, live region CopyButton), pesan error field seragam (ikon + teks), `Card` props `interactive`, ring fokus `ring-neutral-900` seragam, hormati `prefers-reduced-motion`.
-- **v0.2.0** — 14 komponen baru: FileUpload, SearchField, OtpInput, PasswordInput, PhoneInput, Progress, Steps, Breadcrumb, Divider, DropdownMenu, Stat, Banner, CopyButton, ListItem. `FieldShell` & `fieldClasses` dari Input diekspor untuk dipakai ulang.
-- **v0.1.0** — Rilis awal: token, 17 komponen, wrapper ikon Phosphor, Logo.
+1. Kuning `#FFD200` hanya untuk mark logo. Hitam adalah aksen.
+2. Pakai token (`text-fg-muted`, `rounded-panel`, `max-w-page`), bukan hex atau `neutral-*`.
+3. Daftar tujuan memakai `IndexList`, bukan grid kartu ber-ikon.
+4. Ikon Phosphor `regular` lewat `Icon`. Tanpa emoji.
+5. Target sentuh ≥44px, fokus terlihat, kontras AA, seluruh teks Bahasa Indonesia.
+
+## Rilis
+
+1. Ubah `src/`, perbarui `CHANGELOG.md`, `package.json` `version`, dan `src/version.ts`.
+2. Commit, buat tag `vX.Y.Z`, push tag.
+3. Di tiap situs: `npm install github:kahade-id/design-system#vX.Y.Z`.
 
 ## Showcase
 
-Galeri visual semua komponen ada di `site/` (Next.js).
-
-**Deploy ke Vercel:**
-1. Import repo `kahade-id/design-system`
-2. Set **Root Directory** = `site`
-3. Deploy
-
-**Jalankan lokal:**
-
 ```bash
-cd site
-npm install
-npm run dev
+cd site && npm install && npm run dev   # http://localhost:3000
 ```
+
+Deploy Vercel: Root Directory = `site`.

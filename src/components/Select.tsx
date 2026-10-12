@@ -43,9 +43,9 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     return (
       <div className="w-full">
         {label && (
-          <label htmlFor={id} className="mb-1.5 block text-sm font-semibold text-black">
+          <label htmlFor={id} className="mb-2 block text-small font-semibold text-fg">
             {label}
-            {required && <span className="text-red-600"> *</span>}
+            {required && <span aria-hidden="true" className="text-critical"> *</span>}
           </label>
         )}
         <div className="relative">
@@ -56,13 +56,13 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             aria-invalid={!!error}
             aria-describedby={error ? errorId : hint ? hintId : undefined}
             className={[
-              'w-full appearance-none rounded-xl border bg-white pl-4 pr-10 py-2.5 text-sm text-black',
-              'transition-colors duration-150',
-              'focus:outline-none focus:ring-2',
+              'w-full min-h-12 appearance-none rounded-control border bg-surface py-3 pr-11 pl-4 text-body text-fg',
+              'transition-[border-color,box-shadow] duration-150',
+              'focus:outline-none focus:ring-1',
               error
-                ? 'border-red-500 focus:border-red-500 focus:ring-red-100'
-                : 'border-neutral-200 hover:border-neutral-300 focus:border-black focus:ring-neutral-200',
-              'disabled:bg-neutral-50 disabled:text-neutral-400 disabled:cursor-not-allowed',
+                ? 'border-critical focus:border-critical focus:ring-critical'
+                : 'border-line-control hover:border-fg-muted focus:border-fg focus:ring-fg',
+              'disabled:border-line disabled:bg-surface-2 disabled:text-fg-subtle disabled:cursor-not-allowed',
               className,
             ].join(' ')}
             {...rest}
@@ -77,14 +77,14 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             ))}
             {children}
           </select>
-          <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-neutral-500">
+          <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-fg-muted">
             <Icon icon={CaretDown} size={16} />
           </span>
         </div>
         {error ? (
           <FieldError id={errorId}>{error}</FieldError>
         ) : hint ? (
-          <p id={hintId} className="mt-1.5 text-xs text-neutral-500">
+          <p id={hintId} className="mt-2 text-caption text-fg-muted">
             {hint}
           </p>
         ) : null}

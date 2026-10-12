@@ -17,13 +17,15 @@ export interface DropdownMenuProps {
   items: DropdownMenuItem[];
   /** Perataan menu. Default "right". */
   align?: 'left' | 'right';
+  /** Label aksesibel pemicu (wajib bila pemicu hanya ikon). Default "Buka menu". */
+  label?: string;
   className?: string;
 }
 
 /**
  * Menu dropdown: ESC untuk tutup, fokus kembali ke pemicu saat tutup.
  */
-export function DropdownMenu({ trigger, items, align = 'right', className = '' }: DropdownMenuProps) {
+export function DropdownMenu({ trigger, items, align = 'right', label = 'Buka menu', className = '' }: DropdownMenuProps) {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -55,6 +57,7 @@ export function DropdownMenu({ trigger, items, align = 'right', className = '' }
         tabIndex={0}
         aria-haspopup="menu"
         aria-expanded={open}
+        aria-label={label}
         onClick={toggle}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -67,7 +70,7 @@ export function DropdownMenu({ trigger, items, align = 'right', className = '' }
             openAndFocusFirst();
           }
         }}
-        className="inline-flex cursor-pointer rounded-full transition-transform duration-150 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2"
+        className="inline-flex cursor-pointer rounded-full transition-transform duration-150 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fg focus-visible:ring-offset-2"
       >
         {trigger}
       </div>
@@ -119,7 +122,7 @@ export function DropdownMenu({ trigger, items, align = 'right', className = '' }
               }
             }}
             className={[
-              'animate-slide-down absolute z-50 mt-2 min-w-48 overflow-hidden rounded-2xl border border-neutral-200 bg-white py-1.5 shadow-lift',
+              'animate-slide-down absolute z-50 mt-2 min-w-52 overflow-hidden rounded-control border border-line bg-surface p-1.5 shadow-lift',
               align === 'right' ? 'right-0' : 'left-0',
             ].join(' ')}
           >
@@ -133,16 +136,16 @@ export function DropdownMenu({ trigger, items, align = 'right', className = '' }
                   item.onClick();
                 }}
                 className={[
-                  'flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-sm font-medium transition-all duration-150',
-                  'focus-visible:outline-none focus-visible:bg-neutral-100',
-                  'active:bg-neutral-200',
+                  'flex min-h-10 w-full items-center gap-2.5 rounded-tag px-3 text-left text-small font-medium transition-colors duration-150',
+                  'focus-visible:outline-none focus-visible:bg-surface-2',
+                  'active:bg-surface-3',
                   item.danger
-                    ? 'text-red-600 hover:bg-red-50'
-                    : 'text-neutral-800 hover:bg-neutral-100',
+                    ? 'text-critical hover:bg-critical-soft'
+                    : 'text-fg-2 hover:bg-surface-2',
                 ].join(' ')}
               >
                 {item.icon && (
-                  <Icon icon={item.icon} size={17} className={item.danger ? 'text-red-500' : 'text-neutral-400'} />
+                  <Icon icon={item.icon} size={17} className={item.danger ? 'text-critical' : 'text-fg-muted'} />
                 )}
                 {item.label}
               </button>

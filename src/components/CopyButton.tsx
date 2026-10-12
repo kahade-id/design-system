@@ -8,13 +8,15 @@ export interface CopyButtonProps {
   /** Teks yang disalin ke clipboard. */
   text: string;
   label?: string;
+  /** `md` 44px (default, target sentuh), `sm` 36px untuk baris padat. */
+  size?: 'sm' | 'md';
   className?: string;
 }
 
 /**
  * Tombol salin ke clipboard dengan umpan balik visual.
  */
-export function CopyButton({ text, label = 'Salin', className = '' }: CopyButtonProps) {
+export function CopyButton({ text, label = 'Salin', size = 'md', className = '' }: CopyButtonProps) {
   const [state, setState] = useState<'idle' | 'copied' | 'failed'>('idle');
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -58,14 +60,16 @@ export function CopyButton({ text, label = 'Salin', className = '' }: CopyButton
       type="button"
       onClick={copy}
       className={[
-        'inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-all duration-150',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2',
+        size === 'md'
+          ? 'inline-flex h-11 items-center gap-2 rounded-full border px-4 text-small font-semibold transition-colors duration-150'
+          : 'inline-flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-caption font-semibold transition-colors duration-150',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fg focus-visible:ring-offset-2',
         'disabled:cursor-not-allowed disabled:opacity-50',
         state === 'copied'
-          ? 'border-green-300 bg-green-50 text-green-800'
+          ? 'border-green-300 bg-positive-soft text-green-800'
           : state === 'failed'
-            ? 'border-red-300 bg-red-50 text-red-700'
-            : 'border-neutral-300 bg-white text-black hover:border-black hover:shadow-soft active:scale-[0.97]',
+            ? 'border-red-300 bg-critical-soft text-critical'
+            : 'border-line-strong bg-surface text-fg hover:border-fg active:scale-[0.98]',
         className,
       ].join(' ')}
     >

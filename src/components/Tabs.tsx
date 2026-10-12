@@ -14,6 +14,10 @@ export interface TabsProps {
   onChange: (id: string) => void;
   /** Render panel untuk tab aktif (role="tabpanel"). Opsional. */
   renderPanel?: (activeId: string) => ReactNode;
+  /** `underline` (default) atau `segmented` (pil di atas mist). */
+  variant?: 'underline' | 'segmented';
+  /** Label aksesibel daftar tab. */
+  label?: string;
   className?: string;
 }
 
@@ -21,7 +25,16 @@ export interface TabsProps {
  * Tabs gaya underline. Keyboard: panah kiri/kanan, Home, End.
  * Roving tabindex — hanya tab aktif yang bisa di-Tab.
  */
-export function Tabs({ tabs, activeId, onChange, renderPanel, className = '' }: TabsProps) {
+export function Tabs({
+  tabs,
+  activeId,
+  onChange,
+  renderPanel,
+  variant = 'underline',
+  label = 'Tab',
+  className = '',
+}: TabsProps) {
+  const segmented = variant === 'segmented';
   const baseId = useId();
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -58,9 +71,13 @@ export function Tabs({ tabs, activeId, onChange, renderPanel, className = '' }: 
     <div className={className}>
       <div
         role="tablist"
-        aria-label="Tab"
+        aria-label={label}
         onKeyDown={onKeyDown}
-        className="flex gap-1 overflow-x-auto border-b border-neutral-200"
+        className={
+          segmented
+            ? 'inline-flex max-w-full gap-1 overflow-x-auto rounded-full bg-surface-2 p-1'
+            : 'flex gap-6 overflow-x-auto border-b border-line'
+        }
       >
         {tabs.map((tab, i) => {
           const active = tab.id === activeId;
@@ -78,15 +95,25 @@ export function Tabs({ tabs, activeId, onChange, renderPanel, className = '' }: 
               tabIndex={active ? 0 : -1}
               disabled={tab.disabled}
               onClick={() => onChange(tab.id)}
-              className={[
-                'relative shrink-0 px-4 py-2.5 text-sm font-semibold whitespace-nowrap',
-                'transition-all duration-150',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-inset',
-                'disabled:cursor-not-allowed disabled:text-neutral-400',
-                active ? 'text-black' : 'text-neutral-500 hover:bg-neutral-100 hover:text-black',
-                "after:content-[''] after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:rounded-full after:transition-all after:duration-200",
-                active ? 'after:scale-x-100 after:bg-black' : 'after:scale-x-0 after:bg-transparent',
-              ].join(' ')}
+              className={
+                segmented
+                  ? [
+                      'h-11 shrink-0 rounded-full px-5 text-small font-semibold whitespace-nowrap',
+                      'transition-[background-color,color,box-shadow] duration-200',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fg focus-visible:ring-inset',
+                      'disabled:cursor-not-allowed disabled:text-fg-subtle',
+                      active ? 'bg-surface text-fg shadow-soft' : 'text-fg-muted hover:text-fg',
+                    ].join(' ')
+                  : [
+                      'relative min-h-11 shrink-0 pb-3 pt-2 text-small font-semibold whitespace-nowrap',
+                      'transition-colors duration-150',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fg focus-visible:ring-inset',
+                      'disabled:cursor-not-allowed disabled:text-fg-subtle',
+                      active ? 'text-fg' : 'text-fg-muted hover:text-fg',
+                      "after:content-[''] after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:transition-transform after:duration-200",
+                      active ? 'after:scale-x-100 after:bg-fg' : 'after:scale-x-0 after:bg-transparent',
+                    ].join(' ')
+              }
             >
               {tab.label}
             </button>
@@ -100,7 +127,7 @@ export function Tabs({ tabs, activeId, onChange, renderPanel, className = '' }: 
           id={panelId}
           aria-labelledby={`${baseId}-tab-${activeId}`}
           tabIndex={0}
-          className="animate-fade-in pt-4 focus:outline-none"
+          className="animate-fade-in pt-6 focus:outline-none"
         >
           {renderPanel(activeId)}
         </div>

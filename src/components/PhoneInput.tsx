@@ -37,16 +37,16 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
       <FieldShell id={id} label={label} hint={hint} error={error} required={required}>
         <div
           className={[
-            'flex overflow-hidden rounded-xl border bg-white transition-colors duration-150 focus-within:ring-2',
+            'flex min-h-12 overflow-hidden rounded-control border bg-surface transition-[border-color,box-shadow] duration-150 focus-within:ring-1',
             error
-              ? 'border-red-500 focus-within:border-red-500 focus-within:ring-red-100'
-              : 'border-neutral-200 hover:border-neutral-300 focus-within:border-black focus-within:ring-neutral-200',
+              ? 'border-critical focus-within:border-critical focus-within:ring-critical'
+              : 'border-line-control hover:border-fg-muted focus-within:border-fg focus-within:ring-fg',
             'has-disabled:opacity-60',
           ].join(' ')}
         >
           <span
             aria-hidden="true"
-            className="flex items-center bg-neutral-100 px-4 text-sm font-semibold text-neutral-600 select-none"
+            className="flex items-center border-r border-line bg-surface-2 px-4 text-body font-semibold text-fg-muted select-none"
           >
             {countryCode}
           </span>
@@ -65,7 +65,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
               e.target.value = e.target.value.replace(/\D/g, '');
               onChange?.(e);
             }}
-            className={`w-full bg-transparent px-4 py-2.5 text-sm text-black placeholder:text-neutral-500 focus:outline-none disabled:cursor-not-allowed disabled:text-neutral-400 ${className}`}
+            className={`w-full bg-transparent px-4 py-3 text-body text-fg placeholder:text-fg-subtle focus:outline-none disabled:cursor-not-allowed disabled:text-fg-subtle ${className}`}
             {...rest}
           />
         </div>

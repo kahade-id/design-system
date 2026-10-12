@@ -21,7 +21,7 @@ export interface BannerProps {
 }
 
 const variantClasses: Record<BannerVariant, string> = {
-  info: 'bg-black text-white',
+  info: 'bg-fg text-fg-inverse',
   /** Kuning brand — untuk pengumuman brand/promo resmi. */
   brand: 'bg-brand text-black',
 };
@@ -42,7 +42,7 @@ export function Banner({
   return (
     <div
       role="status"
-      className={`flex items-center justify-center gap-3 px-4 py-2.5 text-sm ${variantClasses[variant]} ${className}`}
+      className={`flex min-h-11 items-center justify-center gap-3 px-4 py-2 text-small ${variantClasses[variant]} ${className}`}
     >
       <Icon
         icon={variant === 'brand' ? Megaphone : Info}

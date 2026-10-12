@@ -11,13 +11,15 @@ import { Icon } from '../icons/Icon';
 import { FieldError } from './Input';
 
 export interface SearchFieldProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
   label?: string;
   hint?: string;
   error?: string;
   /** Tombol clear. Default true. */
   clearable?: boolean;
   onClear?: () => void;
+  /** `md` 48px (default), `lg` 56px untuk pencarian utama halaman. */
+  size?: 'md' | 'lg';
 }
 
 /**
@@ -38,6 +40,7 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(
       onClear,
       className = '',
       placeholder = 'Cari…',
+      size = 'md',
       ...rest
     },
     ref,
@@ -60,15 +63,15 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(
         {label && (
           <label
             htmlFor={id}
-            className="mb-1.5 block text-sm font-semibold text-black"
+            className="mb-2 block text-small font-semibold text-fg"
           >
             {label}
-            {required && <span className="text-red-600"> *</span>}
+            {required && <span aria-hidden="true" className="text-critical"> *</span>}
           </label>
         )}
         <div className="relative">
-          <span className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2">
-            <Icon icon={MagnifyingGlass} size={18} className="text-neutral-400" />
+          <span className={`pointer-events-none absolute top-1/2 -translate-y-1/2 ${size === 'lg' ? 'left-5' : 'left-4'}`}>
+            <Icon icon={MagnifyingGlass} size={size === 'lg' ? 22 : 18} className="text-fg-muted" />
           </span>
           <input
             ref={ref}
@@ -84,13 +87,14 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(
             aria-invalid={!!error}
             aria-describedby={error ? errorId : hint ? hintId : undefined}
             className={[
-              'w-full rounded-full border bg-white py-2.5 pr-11 pl-11 text-sm text-black',
-              'placeholder:text-neutral-500 [&::-webkit-search-cancel-button]:hidden',
-              'transition-colors duration-150 focus:outline-none focus:ring-2',
+              'w-full rounded-full border bg-surface text-fg',
+              size === 'lg' ? 'min-h-14 pr-14 pl-14 text-[1.0625rem]' : 'min-h-12 pr-12 pl-11 text-body',
+              'placeholder:text-fg-subtle [&::-webkit-search-cancel-button]:hidden',
+              'transition-[border-color,box-shadow] duration-150 focus:outline-none focus:ring-1',
               error
-                ? 'border-red-500 focus:border-red-500 focus:ring-red-100'
-                : 'border-neutral-200 hover:border-neutral-300 focus:border-black focus:ring-neutral-200',
-              'disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-400',
+                ? 'border-critical focus:border-critical focus:ring-critical'
+                : 'border-line-control hover:border-fg-muted focus:border-fg focus:ring-fg',
+              'disabled:cursor-not-allowed disabled:bg-surface-2 disabled:text-fg-subtle',
             ].join(' ')}
             {...rest}
           />
@@ -99,7 +103,7 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(
               type="button"
               onClick={handleClear}
               aria-label="Hapus pencarian"
-              className="absolute top-1/2 right-3 -translate-y-1/2 rounded-full p-1 text-neutral-400 transition hover:bg-neutral-100 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900"
+              className="absolute top-1/2 right-2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full text-fg-muted transition-colors hover:bg-surface-2 hover:text-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fg"
             >
               <Icon icon={X} size={16} />
             </button>
@@ -108,7 +112,7 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(
         {error ? (
           <FieldError id={errorId}>{error}</FieldError>
         ) : hint ? (
-          <p id={hintId} className="mt-1.5 text-xs text-neutral-500">
+          <p id={hintId} className="mt-2 text-caption text-fg-muted">
             {hint}
           </p>
         ) : null}

@@ -107,17 +107,17 @@ export function Modal({
       <div
         aria-hidden="true"
         onClick={onClose}
-        className="absolute inset-0 cursor-default bg-black/40 backdrop-blur-sm"
+        className="absolute inset-0 cursor-default bg-black/50"
       />
       <div
         ref={panelRef}
         tabIndex={-1}
-        className={`animate-zoom-in relative w-full max-w-lg rounded-3xl bg-white p-6 shadow-lift focus:outline-none ${className}`}
+        className={`animate-zoom-in relative max-h-[calc(100dvh-2rem)] w-full max-w-lg overflow-y-auto rounded-panel bg-surface p-6 shadow-lift focus:outline-none sm:p-8 ${className}`}
         {...rest}
       >
         <div className="mb-4 flex items-start justify-between gap-4">
           {title ? (
-            <h2 id={titleId} className="text-lg font-bold text-black">
+            <h2 id={titleId} className="text-h4 text-fg">
               {title}
             </h2>
           ) : (
@@ -127,7 +127,7 @@ export function Modal({
             type="button"
             onClick={onClose}
             aria-label="Tutup dialog"
-            className="rounded-full p-1.5 text-neutral-500 transition-all duration-150 hover:scale-105 hover:bg-neutral-100 hover:text-black active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900"
+            className="-mt-1 -mr-2 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-fg-muted transition-colors duration-150 hover:bg-surface-2 hover:text-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fg"
           >
             <Icon icon={X} size={18} />
           </button>

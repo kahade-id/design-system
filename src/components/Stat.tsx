@@ -15,26 +15,25 @@ export interface StatProps {
 }
 
 /**
- * Kartu metrik/statistik.
+ * Angka kunci: garis atas tebal, nilai besar tabular, label kecil.
+ * HANYA untuk angka yang benar dan bersumber.
  */
 export function Stat({ label, value, delta, hint, className = '' }: StatProps) {
   return (
-    <div
-      className={`rounded-2xl border border-neutral-200 bg-white p-5 shadow-soft ${className}`}
-    >
-      <p className="text-sm text-neutral-500">{label}</p>
-      <p className="mt-1 text-3xl font-extrabold tracking-tight text-black tabular-nums">
+    <div className={`border-t-2 border-fg pt-4 ${className}`}>
+      <p className="text-small text-fg-muted">{label}</p>
+      <p className="mt-2 text-[2rem] leading-none font-bold tracking-[-0.03em] text-fg tabular-nums sm:text-[2.5rem]">
         {value}
       </p>
       {delta && (
         <p
-          className={`mt-2 inline-flex items-center gap-1 text-xs font-semibold ${delta.up ? 'text-green-700' : 'text-red-600'}`}
+          className={`mt-3 inline-flex items-center gap-1 text-caption font-semibold ${delta.up ? 'text-positive' : 'text-critical'}`}
         >
           <Icon icon={delta.up ? TrendUp : TrendDown} size={14} weight="bold" />
           {delta.value}
         </p>
       )}
-      {hint && <p className="mt-1 text-xs text-neutral-500">{hint}</p>}
+      {hint && <p className="mt-2 text-caption text-fg-subtle">{hint}</p>}
     </div>
   );
 }

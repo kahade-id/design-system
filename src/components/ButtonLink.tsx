@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, type AnchorHTMLAttributes, type ReactNode } from 'react';
+import { forwardRef, type AnchorHTMLAttributes, type ElementType, type ReactNode } from 'react';
 import type { Icon as PhosphorIcon } from '@phosphor-icons/react';
 import { Icon } from '../icons/Icon';
 import {
@@ -8,7 +8,7 @@ import {
   buttonIconSize,
   type ButtonSize,
   type ButtonVariant,
-} from './Button';
+} from './buttonStyles';
 
 export interface ButtonLinkProps
   extends AnchorHTMLAttributes<HTMLAnchorElement> {
@@ -16,6 +16,8 @@ export interface ButtonLinkProps
   size?: ButtonSize;
   leftIcon?: PhosphorIcon;
   rightIcon?: PhosphorIcon;
+  /** Komponen link (mis. `Link` dari next/link). Default `<a>`. */
+  linkAs?: ElementType;
   children: ReactNode;
 }
 
@@ -33,6 +35,7 @@ export const ButtonLink = forwardRef<HTMLAnchorElement, ButtonLinkProps>(
       size = 'md',
       leftIcon,
       rightIcon,
+      linkAs: LinkTag = 'a',
       className = '',
       children,
       ...rest
@@ -41,11 +44,11 @@ export const ButtonLink = forwardRef<HTMLAnchorElement, ButtonLinkProps>(
   ) => {
     const iconSize = buttonIconSize(size);
     return (
-      <a ref={ref} className={buttonClasses(variant, size, className)} {...rest}>
+      <LinkTag ref={ref} className={buttonClasses(variant, size, className)} {...rest}>
         {leftIcon && <Icon icon={leftIcon} size={iconSize} />}
         <span>{children}</span>
         {rightIcon && <Icon icon={rightIcon} size={iconSize} />}
-      </a>
+      </LinkTag>
     );
   },
 );
