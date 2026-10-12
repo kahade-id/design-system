@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, type ElementType } from 'react';
 
 export interface BreadcrumbItem {
   label: string;
@@ -7,13 +7,15 @@ export interface BreadcrumbItem {
 
 export interface BreadcrumbProps {
   items: BreadcrumbItem[];
+  /** Komponen link (mis. `Link` dari next/link). Default `<a>`. */
+  linkAs?: ElementType;
   className?: string;
 }
 
 /**
  * Navigasi breadcrumb.
  */
-export function Breadcrumb({ items, className = '' }: BreadcrumbProps) {
+export function Breadcrumb({ items, linkAs: LinkTag = 'a', className = '' }: BreadcrumbProps) {
   return (
     <nav aria-label="Navigasi breadcrumb" className={className}>
       <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-small">
@@ -35,12 +37,12 @@ export function Breadcrumb({ items, className = '' }: BreadcrumbProps) {
                     {item.label}
                   </span>
                 ) : (
-                  <a
+                  <LinkTag
                     href={item.href}
                     className="inline-flex min-h-6 items-center rounded-tag text-fg-muted underline-offset-4 transition-colors hover:text-fg hover:underline"
                   >
                     {item.label}
-                  </a>
+                  </LinkTag>
                 )}
               </li>
             </Fragment>

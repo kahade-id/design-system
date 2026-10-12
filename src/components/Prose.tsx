@@ -2,7 +2,7 @@ import type { ElementType, HTMLAttributes, ReactNode } from 'react';
 
 export interface ProseProps extends HTMLAttributes<HTMLElement> {
   as?: ElementType;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 /**

@@ -12,7 +12,7 @@ import {
 import { List, X, ArrowUpRight } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
 import { Logo } from './Logo';
-import { buttonClasses } from './Button';
+import { buttonClasses } from './buttonStyles';
 import { SITES, localizeHref, type KahadeSite } from '../ecosystem';
 
 export interface SiteNavItem {
@@ -146,14 +146,22 @@ export function SiteHeader({
 
   const isHome = site === 'home';
   const CtaTag: ElementType = cta?.href.startsWith('/') ? LinkTag : 'a';
+  const hasMenu = nav.length > 0 || !!mobileFooter;
   const markHref = isHome ? '/' : `${homeOrigin}/`;
   const MarkTag: ElementType = isHome ? LinkTag : 'a';
 
   return (
     <header
       data-scrolled={scrolled || open}
-      className="sticky top-0 z-40 border-b border-transparent bg-white/90 backdrop-blur-xl transition-colors duration-200 supports-[backdrop-filter]:bg-white/80 data-[scrolled=true]:border-line"
+      className="sticky top-0 z-40 border-b border-transparent transition-colors duration-200 data-[scrolled=true]:border-line"
     >
+      {/* Latar buram di elemen terpisah: backdrop-filter pada <header> sendiri
+          akan menjadikannya containing block bagi lembar menu `fixed` di bawah
+          (tinggi lembar jadi 0 dan menu tak terlihat). */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-white/90 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80"
+      />
       <div className="mx-auto flex h-16 w-full max-w-[calc(var(--container-page)+2.5rem)] items-center gap-6 px-5 sm:max-w-[calc(var(--container-page)+4rem)] sm:px-8 lg:gap-10">
         {/* Lockup: mark → kahade.id, label → beranda situs */}
         <div className="flex shrink-0 items-center gap-3">
@@ -208,11 +216,11 @@ export function SiteHeader({
         <div className="ml-auto flex items-center gap-2">
           {actions && <div className="hidden items-center gap-2 lg:flex">{actions}</div>}
           {cta && (
-            <CtaTag href={cta.href} className={buttonClasses('primary', 'sm', 'hidden sm:inline-flex')}>
+            <CtaTag href={cta.href} className={buttonClasses('primary', 'sm', hasMenu ? 'max-sm:hidden' : '')}>
               {cta.label}
             </CtaTag>
           )}
-          {(nav.length > 0 || mobileFooter) && (
+          {hasMenu && (
             <button
               ref={toggleRef}
               type="button"
@@ -261,7 +269,9 @@ export function SiteHeader({
           <div className="mt-10">
             <p className="text-caption font-semibold text-fg-subtle">Kahade</p>
             <ul className="mt-2 grid grid-cols-2 gap-x-6">
-              {ECOSYSTEM_ORDER.filter((s) => s !== site).map((s) => (
+              {ECOSYSTEM_ORDER.filter(
+                (s) => s !== site && !nav.some((n) => n.href.startsWith(SITES[s].origin)),
+              ).map((s) => (
                 <li key={s}>
                   <a
                     href={localizeHref(`${SITES[s].origin}/`, site)}
@@ -277,7 +287,7 @@ export function SiteHeader({
 
           <div className="mt-auto flex flex-col gap-3 pt-10">
             {mobileFooter}
-            {cta && (
+            {cta && !mobileFooter && (
               <CtaTag href={cta.href} onClick={close} className={buttonClasses('primary', 'lg', 'w-full')}>
                 {cta.label}
               </CtaTag>

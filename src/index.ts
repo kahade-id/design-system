@@ -5,6 +5,8 @@
  * (kahade.id, bantuan, artikel, karir, legal, status, investor).
  */
 
+export * from './version';
+
 // Token (objek TS — untuk non-CSS / OG image / React Native)
 export * from './tokens/tokens';
 
@@ -37,6 +39,7 @@ export * from './components/Badge';
 export * from './components/Banner';
 export * from './components/Breadcrumb';
 export * from './components/Button';
+export * from './components/buttonStyles';
 export * from './components/ButtonLink';
 export * from './components/Card';
 export * from './components/Checkbox';
@@ -45,6 +48,7 @@ export * from './components/Divider';
 export * from './components/DropdownMenu';
 export * from './components/EmptyState';
 export * from './components/FileUpload';
+export * from './components/IconButton';
 export * from './components/Input';
 export * from './components/Kbd';
 export * from './components/ListItem';

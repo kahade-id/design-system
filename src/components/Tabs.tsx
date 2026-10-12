@@ -98,7 +98,7 @@ export function Tabs({
               className={
                 segmented
                   ? [
-                      'h-10 shrink-0 rounded-full px-5 text-small font-semibold whitespace-nowrap',
+                      'h-11 shrink-0 rounded-full px-5 text-small font-semibold whitespace-nowrap',
                       'transition-[background-color,color,box-shadow] duration-200',
                       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fg focus-visible:ring-inset',
                       'disabled:cursor-not-allowed disabled:text-fg-subtle',

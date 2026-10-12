@@ -18,6 +18,8 @@ export interface SectionHeaderProps {
   /** Ukuran visual judul. Default h2. */
   size?: 'h2' | 'h3';
   inverse?: boolean;
+  /** id pada heading (untuk aria-labelledby / anchor). */
+  id?: string;
   className?: string;
 }
 
@@ -34,6 +36,7 @@ export function SectionHeader({
   as: Heading = 'h2',
   size = 'h2',
   inverse = false,
+  id,
   className = '',
 }: SectionHeaderProps) {
   const titleCls = `${size === 'h2' ? 'text-h2' : 'text-h3'} ${inverse ? 'text-white' : 'text-fg'}`;
@@ -48,7 +51,7 @@ export function SectionHeader({
               {eyebrow}
             </Eyebrow>
           )}
-          <Heading className={`${titleCls} max-w-[20ch]`}>{title}</Heading>
+          <Heading id={id} className={`${titleCls} max-w-[20ch]`}>{title}</Heading>
         </div>
         {(description || action) && (
           <div className="flex flex-col items-start gap-6 lg:col-span-5 lg:col-start-8 lg:justify-end">
@@ -68,7 +71,7 @@ export function SectionHeader({
         </Eyebrow>
       )}
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <Heading className={`${titleCls} max-w-[22ch]`}>{title}</Heading>
+        <Heading id={id} className={`${titleCls} max-w-[22ch]`}>{title}</Heading>
         {action && <div className="shrink-0">{action}</div>}
       </div>
       {description && <p className={`mt-5 max-w-[40rem] ${descCls}`}>{description}</p>}

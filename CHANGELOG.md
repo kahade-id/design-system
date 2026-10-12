@@ -1,5 +1,51 @@
 # Changelog @kahade/ui
 
+## v1.0.0 — 12 Oktober 2026 — Kahade Design Language
+
+Rilis mayor: dari kumpulan komponen menjadi bahasa desain ekosistem.
+Lihat `docs/DESIGN-LANGUAGE.md` dan `docs/AUDIT-2026-10.md`.
+
+### Token (breaking secara visual)
+- Warna semantik: `fg`, `fg-2`, `fg-muted`, `fg-subtle`, `surface`, `surface-2/3`,
+  `surface-inverse`, `line`, `line-strong`, `line-control` (≥3:1, WCAG 1.4.11),
+  `positive`/`caution`/`critical` (+ `-soft`). `ink`/`paper`/`xl2` tetap sebagai alias.
+- Skala tipografi fluid: `text-display`, `text-h1`–`text-h4`, `text-lead`,
+  `text-body-lg`, `text-body`, `text-small`, `text-caption`, `text-eyebrow`
+  (masing-masing membawa line-height, tracking, weight).
+- Radius 4 nilai (`rounded-tag/control/panel/full`), bayangan 2 level
+  (`shadow-soft/lift`), layout `max-w-page/narrow/reading`, easing.
+- `base.css`: lapisan base/components, `::selection` hitam, `.kh-skip-link`,
+  `.kh-prose` (dengan pelarian `.not-prose`), `.kh-reveal`, reduced-motion.
+
+### Kerangka situs (baru)
+- `SiteHeader` — header global: mark → kahade.id, label produk, nav dengan
+  penanda aktif, CTA, lembar menu seluler (fokus dikelola, Esc, kunci scroll).
+- `SiteFooter` — footer global identik di 7 situs.
+- `ecosystem.ts` — `SITES`, `FOOTER_COLUMNS`, `COMPANY`, `localizeHref`:
+  satu sumber tautan lintas situs.
+
+### Pola halaman (baru)
+`Container`, `Section`, `PageHeader`, `SectionHeader`, `Eyebrow`, `IndexList`,
+`DescriptionList`, `Prose`, `Toc` (sidebar + disclosure, scrollspy), `TextLink`,
+`Reveal`, `StatusDot`, `Kbd`, `IconButton`, `LogoTile`, `LOGO_PATHS`,
+`buttonStyles` (modul netral server/client), `DS_VERSION`.
+
+### Komponen yang diperbarui
+- Seluruh 34 komponen memakai token v1. Form setinggi 48px, fokus hitam.
+- `Logo`: prop `tone` (`brand` | `ink` | `inverse`), lebar proporsional.
+- `Button`: varian `inverse` & `inverseSecondary`; ukuran 36/44/52px.
+- `Card`: varian `outline` | `muted` | `elevated`, tanpa bayangan default.
+- `Badge`: varian `outline`, tinggi 24px. `Alert`: hairline + judul ReactNode.
+- `Accordion`: ukuran `lg`, tombol di dalam heading (WAI-APG), anchor per item.
+- `Tabs`: varian `segmented`; `SearchField`: ukuran `lg`; `CopyButton`: ukuran `md` 44px.
+- `Steps`: tanpa animasi berulang; `Tooltip`: tidak lagi menyebabkan overflow.
+- `Breadcrumb`: pemisah "/", `EmptyState`: prop `align`.
+
+### Perbaikan
+- `buttonClasses` kini bisa dipanggil dari Server Component.
+- Header: latar buram dipindah ke elemen terpisah agar lembar menu `fixed`
+  tidak terpotong (bug containing block `backdrop-filter`).
+
 ## v0.5.2 — 4 Oktober 2026
 - **`CopyButton`**: kini punya state gagal — bila clipboard API + fallback sama-sama gagal, tombol menampilkan "Gagal menyalin" (merah) + pengumuman screen reader, bukan diam-diam mengklaim "Tersalin!". Warna sukses digelapkan (`green-700`→`green-800`) agar kontras lolos.
 - **`EmptyState`**: prop baru `headingLevel` (1|2|3, default 3) — halaman 404 kini bisa pakai `headingLevel={1}` tanpa workaround sr-only h1 manual.

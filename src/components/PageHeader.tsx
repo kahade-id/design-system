@@ -26,6 +26,8 @@ export interface PageHeaderProps {
   size?: 'display' | 'h1' | 'h2';
   /** Hairline di bawah header. Default true. */
   divider?: boolean;
+  /** Lebar wadah — samakan dengan isi halaman. Default `page`. */
+  containerSize?: 'page' | 'narrow' | 'reading';
   className?: string;
   children?: ReactNode;
 }
@@ -51,6 +53,7 @@ export function PageHeader({
   aside,
   size = 'h1',
   divider = true,
+  containerSize = 'page',
   className = '',
   children,
 }: PageHeaderProps) {
@@ -73,7 +76,7 @@ export function PageHeader({
 
   return (
     <header className={`${divider ? 'border-b border-line' : ''} ${className}`}>
-      <Container className="pt-10 pb-12 sm:pt-14 sm:pb-16 lg:pt-20 lg:pb-20">
+      <Container size={containerSize} className="pt-10 pb-12 sm:pt-14 sm:pb-16 lg:pt-20 lg:pb-20">
         {aside ? (
           <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-12">
             <div className="lg:col-span-7">{body}</div>

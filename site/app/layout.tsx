@@ -1,32 +1,32 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { GOOGLE_FONTS_URL } from "@kahade/ui";
 import "./globals.css";
 
-const GOOGLE_FONTS_URL =
-  "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap";
-
 export const metadata: Metadata = {
-  title: "Kahade Design System",
+  title: "Kahade Design Language",
   description:
-    "Galeri komponen @kahade/ui — design system untuk semua web Kahade.",
+    "Token, komponen, dan pola halaman @kahade/ui — satu bahasa desain untuk semua web Kahade.",
+  robots: { index: false, follow: false },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id">
+    <html lang="id" data-scroll-behavior="smooth">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href={GOOGLE_FONTS_URL} rel="stylesheet" />
       </head>
-      <body>{children}</body>
+      <body>
+        <a href="#konten-utama" className="kh-skip-link">
+          Lewati ke konten utama
+        </a>
+        {children}
+      </body>
     </html>
   );
 }

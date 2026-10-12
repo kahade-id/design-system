@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState, type ReactNode } from 'react';
+import { useEffect, useId, useState, type ReactNode } from 'react';
 import { Plus } from '@phosphor-icons/react/dist/ssr';
 import { Icon } from '../icons/Icon';
 
@@ -31,11 +31,21 @@ function AccordionItem({
 }) {
   const [open, setOpen] = useState(!!item.defaultOpen);
   const buttonId = useId();
+
+  // Tautan langsung ke pertanyaan (#id) membuka item tersebut.
+  useEffect(() => {
+    const sync = () => {
+      if (window.location.hash === `#${item.id}`) setOpen(true);
+    };
+    sync();
+    window.addEventListener('hashchange', sync);
+    return () => window.removeEventListener('hashchange', sync);
+  }, [item.id]);
   const panelId = useId();
   const Heading = `h${headingLevel}` as 'h2' | 'h3' | 'h4';
 
   return (
-    <div className="border-b border-line">
+    <div id={item.id} className="border-b border-line">
       <Heading className="m-0">
         <button
           type="button"

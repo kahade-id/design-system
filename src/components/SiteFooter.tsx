@@ -74,7 +74,7 @@ export function SiteFooter({ site, children, note, linkAs: LinkTag = 'a' }: Site
                       {renderLink(
                         l.href,
                         l.label,
-                        'inline-flex min-h-11 items-center text-small text-fg-muted transition-colors duration-150 hover:text-fg lg:min-h-9',
+                        'inline-flex min-h-11 items-center text-small text-fg-muted transition-colors duration-150 hover:text-fg',
                       )}
                     </li>
                   ))}
@@ -98,13 +98,13 @@ export function SiteFooter({ site, children, note, linkAs: LinkTag = 'a' }: Site
               return (
                 <li key={s}>
                   {current ? (
-                    <span aria-current="true" className="inline-flex min-h-9 items-center text-caption font-semibold text-fg">
+                    <span aria-current="true" className="inline-flex min-h-11 items-center text-caption font-semibold text-fg">
                       {label}
                     </span>
                   ) : (
                     <a
                       href={`${SITES[s].origin}/`}
-                      className="inline-flex min-h-9 items-center text-caption text-fg-muted transition-colors hover:text-fg"
+                      className="inline-flex min-h-11 items-center text-caption text-fg-muted transition-colors hover:text-fg"
                     >
                       {label}
                     </a>

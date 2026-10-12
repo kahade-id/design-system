@@ -28,7 +28,9 @@ export function Reveal({ children, delay = 0, as: Tag = 'div', className = '' }:
     }
     const io = new IntersectionObserver(
       (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
+        // Muncul saat masuk viewport — atau bila sudah terlewati (scroll cepat,
+        // lompat via anchor) agar konten tidak pernah tertinggal tersembunyi.
+        if (entries.some((e) => e.isIntersecting || e.boundingClientRect.top < 0)) {
           setVisible(true);
           io.disconnect();
         }

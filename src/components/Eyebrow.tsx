@@ -5,7 +5,7 @@ export interface EyebrowProps extends HTMLAttributes<HTMLParagraphElement> {
   index?: string;
   /** Untuk permukaan gelap. */
   inverse?: boolean;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 /**
@@ -21,10 +21,12 @@ export function Eyebrow({ index, inverse = false, className = '', children, ...r
       {index && (
         <>
           <span className={`tabular-nums ${inverse ? 'text-white/60' : 'text-fg-subtle'}`}>{index}</span>
-          <span aria-hidden="true" className={`h-px w-6 ${inverse ? 'bg-white/30' : 'bg-line-strong'}`} />
+          {children && (
+            <span aria-hidden="true" className={`h-px w-6 ${inverse ? 'bg-white/30' : 'bg-line-strong'}`} />
+          )}
         </>
       )}
-      <span>{children}</span>
+      {children && <span>{children}</span>}
     </p>
   );
 }
